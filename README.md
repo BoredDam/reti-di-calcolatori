@@ -1,4 +1,4 @@
-# Reti-di-Calcolatori
+# Reti di Calcolatori
 
 ## Argomenti Trattati
 
