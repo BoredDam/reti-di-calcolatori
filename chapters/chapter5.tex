@@ -1,7 +1,7 @@
 \chapter{Network Layer - Piano di controllo}
 
 \section{Algoritmi di Instradamento (routing)}
-Lo scopo di questi algoritmi è \textbf{determinare i migliori cammini} da usare dalle sorgenti ai destinatari. Il miglior cammino è valutato rispetto a vari fattori, che riprendono ciò che abbiamo affrontato nello studio dei problemi di ottimizzazione sui grafi, nella materia Algoritmi e Laboratorio. \href{https://github.com/BoredDam/Algoritmi}{Vedi il mio GitHub per approfondimenti}.
+Lo scopo di questi algoritmi è \textbf{determinare i migliori cammini} da usare tra le sorgenti e le destinazioni. Il miglior cammino è valutato rispetto a vari fattori, che riprendono ciò che abbiamo affrontato nello studio dei problemi di ottimizzazione sui grafi, nella materia Algoritmi e Laboratorio. \href{https://github.com/BoredDam/Algoritmi}{Vedi il mio GitHub per approfondimenti}.
 
 \begin{itemize}
 	\item \textit{Shortest path}, o \textit{shortest unweighted path}.\\
@@ -28,7 +28,7 @@ Nonostante ciò, esistono molti altri fattori da \textbf{tenere in considerazion
 \subsection{Algoritmi statici e dinamici}
 \begin{itemize}
 	\item Negli \textbf{algoritmi di instradamento statici}, raramente i percorsi stabiliti cambiano. Solitamente ciò avviene sotto intervento umano.
-	\item Negli \textbf{algoritmi di instradamento dinamici}, gli instradamenti variano in funzione di fattori quali volume del traffico, topologia della rete. L'algoritmo viene eseguito periodicamente o in funzione di variazioni nella topologia o di costi relativi ai collegamenti.
+	\item Negli \textbf{algoritmi di instradamento dinamici}, gli instradamenti variano in funzione di fattori quali il volume del traffico e la topologia della rete. L'algoritmo viene eseguito periodicamente o in funzione di variazioni nella topologia o di costi relativi ai collegamenti.
 \end{itemize}
 \newpage
 
@@ -50,7 +50,7 @@ Negli algoritmi sensibili al carico appena accennati, si rischia lo scenario del
 	\includegraphics[width=0.75\linewidth]{./images/oscillazione dei percorsi.png}
 \end{figure}
 
-Questo scenario, causa cicli di ricalcolo continui che compromettono la stabilità dell'instradamento. La soluzione generale, consiste nell'\textbf{evitare che tutti i router eseguano l'algoritmo di routing allo stesso istante}.
+Questo scenario causa cicli di ricalcolo continui che compromettono la stabilità dell'instradamento. La soluzione generale consiste nell'\textbf{evitare che tutti i router eseguano l'algoritmo di routing allo stesso istante}.
 \newpage
 
 \section{Instradamento link-state}
@@ -92,7 +92,7 @@ In reti più complesse e con più cicli, il flooding può creare un numero enorm
 	
 \end{itemize}
 \subsection{L'algoritmo di Dijkstra}
-Dato in input un grafo $G$, un nodo sorgente $s$ e una struttura dati contenenti gli archi e il loro peso $w$, Dijkstra calcola tutti i cammini minimi che partono da $s$, verso ogni nodo $v \in G.V$.\\
+Dati in input un grafo $G$, un nodo sorgente $s$ e una struttura dati contenente gli archi e il loro peso $w$, Dijkstra calcola tutti i cammini minimi che partono da $s$, verso ogni nodo $v \in G.V$.\\
 Si suddivide in due fasi.
 
 \subsubsection{Inizializzazione}
@@ -114,7 +114,7 @@ Si suddivide in due fasi.
 	\item A ogni passaggio, estrarre il nodo $u$ con $d.u$ minimo da $Q$.\\
 	Alla prima iterazione, il nodo estratto sarà $s$.
 	
-	\item Inserisci $u$ nell'insieme $S$.
+	\item Si inserisce $u$ nell'insieme $S$.
 	
 	\item Verifica se è possibile ridurre $d.v$ dei nodi $v$ adiacenti ad $u$, passando proprio dal nodo $u$. La verifica si ripete su ogni nodo adiacente ad $u$. 
 	
@@ -150,17 +150,17 @@ Su ciascun nodo $x \in G.V$ , girerà il seguente algoritmo:
 
 \subsubsection{Iterazione}
 \begin{enumerate}
-	\item Aspetta fino a quando non ricevi un vettore delle distanze, o finché non cambia il costo verso un nodo adiacente.
+	\item Si aspetta fino a quando non ricevi un vettore delle distanze, o finché non cambia il costo verso un nodo adiacente.
 	
 	\item Ricevuto il vettore delle distanze da un nodo $D_y$, si andrà a calcolare, per ogni $v \in G.V$, 
 	$$
 	D_x[v] = \min \{D_x[v], \;D_y[v] + w(x,y)\}
 	$$
-	ovvero, se esiste, calcolo il cammino di peso inferiore per andare da $x$ a $v$, passando per $y$. Se questa condizione si verifica, e la $D_x[v]$ di qualsiasi nodo $v$ cambia, inoltra al vettore delle distanze a tutti i nodi adiacenti.
+	ovvero, se esiste, calcolo il cammino di peso inferiore per andare da $x$ a $v$, passando per $y$. Se questa condizione si verifica, e la $D_x[v]$ di qualsiasi nodo $v$ cambia, inoltra ll vettore delle distanze a tutti i nodi adiacenti.
 	
 	\item Ritorna allo step 1 dell'iterazione.
 \end{enumerate}
-Questo algoritmo è un algoritmo \textbf{asincrono}, che\textbf{ itera un numero indefinito di volte su ogni nodo}, in cui i valori minimi calcolati non cambiano, se non successivamente a cambiamenti della rete. In tal caso, ogni nodo cui vettore delle distanze cambia, inoltrerà quest'ultimo agli adiacenti.
+Si tratta di un processo \textbf{asincrono}, che\textbf{ itera un numero indefinito di volte su ogni nodo}, in cui i valori minimi calcolati non cambiano, se non successivamente a cambiamenti della rete. In tal caso, ogni nodo il cui vettore delle distanze cambia, inoltrerà quest'ultimo agli adiacenti.
 
 \subsection{Poisoned reverse}
 Esistono però delle \textbf{circostanze problematiche}, causate dalla \textbf{visibilità limitata} di ogni nodo rispetto ai costi complessivi \textbf{della rete}, che potrebbero causare \textbf{loop di inoltro di pacchetto}. In tal caso, si può introdurre un meccanismo di \textbf{poisoned reverse}, che permette ad un nodo $x$ di mentire a $y$ in una circostanza del genere:
@@ -175,7 +175,7 @@ Si può arrivare a questa circostanza quando il peso di un arco non adiacente a 
 \section{Routing in Internet}
 Per facilitare il routing in Internet, quest'ultimo è organizzato in \textbf{sistemi autonomi} (AS). Ogni sistema autonomo è trattato come una singola entità amministrativa. 
 \begin{itemize}
-	\item All'interno di sistema autonomo, tutti i router eseguono lo stesso algoritmo di routing, chiamato \textbf{protocollo di instradamento intra-AS}.
+	\item All'interno di un sistema autonomo, tutti i router eseguono lo stesso algoritmo di routing, chiamato \textbf{protocollo di instradamento intra-AS}.
 	\item Per l‘instradamento tra AS distinti si usano invece \textbf{protocolli di instradamento inter-AS}.
 \end{itemize} 
 Questa organizzazione in sistemi autonomi, garantisce una maggiore \textbf{autonomia amministrativa} e migliore \textbf{scalabilità}. Ogni sistema autonomo è identificato da un \textbf{numero di sistema autonomo (ASN)}.
@@ -185,7 +185,7 @@ Questa organizzazione in sistemi autonomi, garantisce una maggiore \textbf{auton
 \begin{itemize}
 	\item Supporta al più 15 hop. Una destinazione $x$ con $d.x=16 \ \text{hop}$ è irraggiungibile.
 	\item I router scambiano informazioni relative alle tabelle di routing ogni 30 secondi.
-	\item Un percorso non aggiornato per 180 secondi è marcato come irraggiugibile.
+	\item Un percorso non aggiornato per 180 secondi è marcato come irraggiungibile.
 	\item Dopo altri 120 secondi viene rimosso dalla tabella (garbage collection).
 \end{itemize}
 Sfrutta inoltre due tipi di messaggi:
@@ -242,7 +242,7 @@ E ogni nodo effettua questi passaggi:
 È un protocollo di routing \textbf{inter-AS}, e quindi tra sistemi autonomi. È fondamentale per il funzionamento di Internet, tanto quanto IP, in quanto \textbf{è il collante tra tutti i vari AS}.
 \begin{itemize}
 	\item \textbf{Comunicare la raggiungibilità delle sotto reti}.\\
-	Permettendo a ciascun sistema di rendersi visibile rispetto i \textbf{prefissi di rete} che gestisce. È tramite BGP che tutti i router conoscono le sottoreti vicine.
+	Permettendo a ciascun sistema di rendersi visibile rispetto ai \textbf{prefissi di rete} che gestisce. È tramite BGP che tutti i router conoscono le sottoreti vicine.
 	
 	\item \textbf{Determinare i percorsi ottimali verso le sottoreti.}\\
 	Un router può apprendere più percorsi verso un \textbf{determinato prefisso} (ovvero una sottorete). La selezione del percorso migliore avviene in base alle politiche del sistema autonomo e alle informazioni di raggiungibilità fornite da BGP.

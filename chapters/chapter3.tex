@@ -17,7 +17,7 @@ Sono tra le responsabilità principali del livello di rete, e \underline{non son
 \end{itemize}
 
 \subsection{Data plane vs Control plane}
-La vastità degli argomenti che riguardano il Network Layer, ci spingono a suddividere la discussione tra \textbf{data plane} e \textbf{control plane}.
+La vastità degli argomenti che riguardano il Network Layer ci spinge a suddividere la discussione tra \textbf{data plane} e \textbf{control plane}.
 
 \begin{itemize}
 	\item \textbf{Data plane.}\\
@@ -34,7 +34,7 @@ La vastità degli argomenti che riguardano il Network Layer, ci spingono a suddi
 Esistono due approcci differenti:
 \begin{itemize}
 	\item \textbf{Traditional Routing Algorithms.}\\
-	Effettuato dai singoli router, senza una visibilità globale, ma dei propri neighbours. È una struttura distribuita, più resistente della prossima soluzione, ma più lenta. Ogni router ha al proprio interno una tabella d'instradamento, cui valoi vengono aggiornati di volta in volta.
+	Effettuato dai singoli router, senza una visibilità globale, ma dei propri neighbours. È una struttura distribuita, più resistente della prossima soluzione, ma più lenta. Ogni router ha al proprio interno una tabella d'instradamento, i cui valori vengono aggiornati di volta in volta.
 	\item \textbf{Software Defined Network.}\\
 	È un'architettura centralizzata esterna, che sa tutto della rete. Ottiene path migliori e più velocemente, ma se l'SDN va giù, il sistema crolla. Inoltre, riceverà un altissimo numero di richieste non-distribuite, in quanto, in questo tipo di architettura, è proprio il controller remoto a calcolare e distribuire le tabelle di inoltro.
 	
@@ -47,25 +47,25 @@ Il control plane è centralizzato in un remote controller.\\
 Conosce tutta la topologia della rete, e prende decisioni sui percorsi che devono seguire i pacchetti, sa come aggiornare le tabelle di inoltro nei router. Manda istruzioni ai router sull'instradamento e riceve aggiornamenti dai router sul traffico. Il control agent (CA) è un modulo che gira sui router che permette di comunicare col Remote Controller. Il remote agent non agisce mai in autonomia dal remote controller.
 
 \subsection{Virtual Circuit Service, circuito virtuale}
-È una modalità di commutazione in cui, tra due peer, viene costruito un \textbf{circuito virtuale} in fase di connessione (secondo i soliti metodi di routing). L'inoltro dei pacchetti \textbf{di quella connessione} procederà \underline{esclusivamente} sul \textbf{percorso stabilito}. In queste circostanze è chiaro che i router \textbf{non siano state-less}: manterranno infatti delle informazioni di routing relative a quella connessione. Un qualsiasi \textbf{malfunzionamento} dei router nel percorso, implica una \textbf{riconnessione da zero}. In compenso, il \textbf{controllo della congestione} è molto più \textbf{semplice}. 
+È una modalità di commutazione in cui, tra due peer, viene costruito un \textbf{circuito virtuale} in fase di connessione (secondo i soliti metodi di routing). L'inoltro dei pacchetti \textbf{di quella connessione} procederà \underline{esclusivamente} sul \textbf{percorso stabilito}. In queste circostanze è chiaro che i router \textbf{non sono state-less}: manterranno infatti delle informazioni di routing relative a quella connessione. Un qualsiasi \textbf{malfunzionamento} dei router nel percorso, implica una \textbf{riconnessione da zero}. In compenso, il \textbf{controllo della congestione} è molto più \textbf{semplice}. 
 
 \subsection{Packet Switching, commutazione di pacchetto}
-La modalità a circuito virtuale è molto diversa alla più usata modalità di \textbf{packet switching} (ovvero della \textbf{commutazione a pacchetto}) in cui tutti i \textbf{pacchetti}, anche della stessa connessione, sono \textbf{inoltrati separatamente} sulla base delle informazioni contenute negli \textbf{header}. Instradano ogni pacchetto secondo le proprie tabelle di routing, e \underline{non pensando ad un circuito fisso tra due host}.
+La modalità a circuito virtuale è molto diversa dalla più usata modalità di \textbf{packet switching} (ovvero della \textbf{commutazione a pacchetto}) in cui tutti i \textbf{pacchetti}, anche della stessa connessione, sono \textbf{inoltrati separatamente} sulla base delle informazioni contenute negli \textbf{header}. Instradano ogni pacchetto secondo le proprie tabelle di routing, e \underline{non pensando ad un circuito fisso tra due host}.
 
 
 \subsection{Router}
-Al giorno d'oggi sono dei "mini-stack ISO/OSI", cui livello più alto è il transport.\\
+Al giorno d'oggi sono dei "mini-stack ISO/OSI", il cui livello più alto è il transport.\\
 Attualmente, i router contengono un \textit{firmware}\footnote{Sono programmi scritti nella memoria flash, solitamente in linguaggio di basso livello (Assembly, C di basso livello). Sono software che la CPU può eseguire direttamente grazie al program counter. All'accensione del dispositivo, il codice viene copiato nella SRAM, e la CPU lo esegue. Questi firmware sono velocissimi, ed è il motivo per cui rispondono alle esigenze dei router.} nella propria memoria flash.
 \begin{itemize}
 	\item Esamina gli \textbf{header} dei datagrammi IP che gli passano attraverso.
-	\item Sposta i datagrammi \textbf{dalla porta di input} a quella di \textbf{output} per trasferire i datagramma nel path stabilito. Effettuano un \textbf{forward} dei pacchetti.
+	\item Sposta i datagrammi \textbf{dalla porta di input} a quella di \textbf{output} per trasferire i datagrammi nel path stabilito. Effettuano un \textbf{forward} dei pacchetti.
 \end{itemize}
 
 \subsection{Indirizzamento logico}
 Consiste nell'assegnamento di \textbf{indirizzi logici} ai dispositivi (tramite indirizzi \textbf{IP}) per \textbf{identificare} in modo univoco ogni \textbf{nodo nella rete}.
 
 \section{Frammentazione e riassemblaggio}
-I \textbf{datagrammi IP troppo grandi} per il router devono essere \textbf{frammentati e riassemblati al mittente} per renderne possibile il trasferimento. Questo è uno dei compiti del data plane del Network Layer (la MTU dell'Ethernet è di 1500 byte). In dei casi, si vorrebbe poter avere la possibilità di controllare se permettere o meno la frammentazione. Questo è ottenuto tramite dei flag opportuni dell'header IPv4 (Don't Fragment e More Fragment). Scopriremo anche che IPv6 non permette la frammentazione da parte dei router intermedi.
+I \textbf{datagrammi IP troppo grandi} per il router devono essere \textbf{frammentati e riassemblati al mittente} per renderne possibile il trasferimento. Questo è uno dei compiti del data plane del Network Layer (la MTU dell'Ethernet è di 1500 byte). In alcuni casi, si vorrebbe poter avere la possibilità di controllare se permettere o meno la frammentazione. Questo è ottenuto tramite dei flag opportuni dell'header IPv4 (Don't Fragment e More Fragment). Scopriremo anche che IPv6 non permette la frammentazione da parte dei router intermedi.
 
 
 \section{Modelli di servizio di rete}
@@ -80,7 +80,7 @@ O a interi flussi di datagrams, come
 \begin{itemize}
 	\item \textbf{Consegna} dei datagrammi \textbf{in ordine}.
 	\item \textbf{Bandwidth minima} garantita.
-	\item \textbf{Maximum jitter}, garantisce che la variazione massima tra i ritardi dei pacchetti.
+	\item \textbf{Maximum jitter}, garantisce che la variazione massima tra i ritardi dei pacchetti rimanga entro una determinata soglia.
 \end{itemize}
 
 Su Internet, garantire questi servizi è semplicemente utopia. In campo militare o finanziario, alcuni di questi servizi devono essere garantiti. Nelle reti degli ATM, viene usato un servizio di \textbf{Available Bit Rate}. Garantisce una bandwidth minima utilizzando la banda di rete disponibile.
@@ -90,4 +90,4 @@ In Internet, le \textbf{garanzie} in termini \textbf{di reliability} sono affida
 
 \subsubsection{Best Effort - Complice della popolarità di Internet?}
 La semplicità dei meccanismi dietro ai servizi \textbf{best-effort di Internet}, \textbf{ha indubbiamente permesso} a quest'ultimo di \textbf{espandersi a macchia d'olio}.\\
-Con una larghezza di banda sufficientemente ampia, le applicazioni funzionano piuttosto bene la maggior parte delle volte. \textbf{Good enough!}
+Con una larghezza di banda sufficientemente ampia, le applicazioni funzionano piuttosto bene la maggior parte delle volte. \textbf{Good enough: sufficentemente buono per la maggior parte degli scopi pratici!}

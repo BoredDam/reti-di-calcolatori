@@ -12,7 +12,7 @@ I router sono sicuramente i dispositivi più responsabili dell'instradamento e d
 \begin{itemize}
 	\item \textbf{Porte di ingresso.}\\
 	Sono le \textbf{terminazioni a livello fisico} per i collegamenti in ingresso al router. Inoltre, è sempre nella porta d'ingresso che si effettua la \textbf{decisione di forwarding}. Ogni porta contiene infatti una copia della tabella di routing.
-	In questo caso, il termine "porta" fa riferimento a interfacce fisiche d'input (e output), ben diversi dalle porte software dei processi e dei socket.
+	In questo caso, il termine "porta" fa riferimento a interfacce fisiche d'input (e output), ben diverse dalle porte software dei processi e dei socket.
 	
 	\item \textbf{Struttura di commutazione.}\\
 	Connette fisicamente le porte d'ingresso a quelle di uscita. Una sorta di rete interna al router. È una struttura che deve permettere una \textbf{commutazione ad alta velocità}, sfruttando la tabella di forwarding fornita dal piano di controllo.
@@ -21,7 +21,7 @@ I router sono sicuramente i dispositivi più responsabili dell'instradamento e d
 	Memorizzano i pacchetti che provengono dalla struttura di commutazione e li trasmettono sul collegamento d'uscita. Nei collegamenti bidirezionali, la porta d'uscita è accoppiata alla porta d'ingresso sulla stessa scheda di collegamento (detta line card).
 	
 	\item \textbf{Processore d'instradamento.}\\
-	Esegue le funzioni del piano di controllo. Il funzionamento varia tra i router tradizionali e quelli SDN\footnote{Software Defined Networking}. Nei primi, il processore d'instradamento gestisce le tabelle di inoltro. Nel secondo caso, si occupano di gestire la comunicazione con il controller remoto.
+	Esegue le funzioni del piano di controllo. Il funzionamento varia tra i router tradizionali e quelli SDN\footnote{Software Defined Networking}. Nei primi, il processore d'instradamento gestisce le tabelle di inoltro. Nei secondi, si occupano di gestire la comunicazione con il controller remoto.
 \end{itemize}
 
 In un router, mentre il processore d'instradamento è principalmente software, le porte di ingresso, di uscita e le strutture di commutazione, sono gestite da hardware dedicato.
@@ -31,14 +31,14 @@ In questo modo, è possibile ottenere le performance richieste dalla rete, opera
 \subsection{Porte d'ingresso del router}
 Le porte d'input svolgono sia una funzione di terminazione (elettrica) per il livello fisico, sia l'elaborazione per il livello di collegamento.\\
 Usando le informazioni della tabella d'inoltro, viene determinata la porta d'uscita dei pacchetti (attraverso la struttura di commutazione).\\
-La tabella di inoltro viene elaborata e aggiornata dal processore di instradamento (control plane), e viene copiata e mandata a line card e porte d'ingresso, in modo da permettere alle porte d'ingresso di prendere decisioni senza invocare il processore d'instradamento centralizzato.
+La tabella di inoltro viene elaborata e aggiornata dal processore di instradamento (control plane), e viene copiata e mandata alle line card e alle porte d'ingresso, in modo da permettere alle porte d'ingresso di prendere decisioni senza invocare il processore d'instradamento centralizzato.
 
 \subsection{Tabelle d'inoltro e destination-based forwarding}
 \begin{figure}[htp]
 	\centering
 	\includegraphics[width=0.75\linewidth]{./images/tabellainoltro.png}
 \end{figure}
-La decisione della porta d'inoltro può avviene tramite un processo di longest-prefix-matching (in italiano, corrispondenza a prefisso più lungo). L'indirizzo di destinazione viene confrontato con una lista di prefissi associati a dei collegamenti: quello dal match migliore, detterà la porta d'uscita dei pacchetti.
+La decisione della porta d'inoltro può avvenire tramite un processo di longest-prefix-matching (in italiano, corrispondenza a prefisso più lungo). L'indirizzo di destinazione viene confrontato con una lista di prefissi associati a dei collegamenti: quello con il match migliore detterà la porta d'uscita dei pacchetti.
 \begin{figure}[htp]
 	\centering
 	\includegraphics[width=0.75\linewidth]{./images/prefix.png}
@@ -46,26 +46,26 @@ La decisione della porta d'inoltro può avviene tramite un processo di longest-p
 
 \subsubsection{Ternary Content Addressing Memory}
 Lo string matching non è un problema semplice, nemmeno nel caso dei prefissi: soprattutto in un contesto come quello dei router, che devono operare ad altissime velocità, risulta fondamentale implementare questi meccanismi in maniera hardware.\\
-Entrà quindi in giorno la TCAM. La Ternary Content-Addressable Memory (TCAM) è un tipo specializzato di memoria ad alta velocità che può cercare all'interno del suo intero contenuto in un solo ciclo di clock. Il termine ternario si riferisce alla capacità della memoria di memorizzare e interrogare i dati utilizzando tre diversi valori: 0, 1 e X (perfetta per i prefissi!). La TCAM è utilizzata nel contesto dei router per memorizzare le tabelle di ricerca degli indirizzi, ed effettuare in tempo costante il controllo di tutti i prefissi, per trovare il prefisso dal matching migliore con l'indirizzo di destinazione fornito.
+Entra quindi in gioco la TCAM. La Ternary Content-Addressable Memory (TCAM) è un tipo specializzato di memoria ad alta velocità che può cercare all'interno del suo intero contenuto in un solo ciclo di clock. Il termine ternario si riferisce alla capacità della memoria di memorizzare e interrogare i dati utilizzando tre diversi valori: 0, 1 e X (perfetta per i prefissi!). La TCAM è utilizzata nel contesto dei router per memorizzare le tabelle di ricerca degli indirizzi, ed effettuare in tempo costante il controllo di tutti i prefissi, per trovare il prefisso dal matching migliore con l'indirizzo di destinazione fornito.
 
 \newpage
 
 \subsection{Struttura di commutazione}
-È il cuore del router, mezzo tramite cui i pacchetti vengono commutati (inoltrati) dalla porta d'ingresso alla porta d'uscita. La commutazione può essere ottenuta attraverso varie strutture di commutazione:
+È il cuore del router, mezzo tramite cui i pacchetti vengono commutati (inoltrati) dalla porta d'ingresso alla porta d'uscita. La commutazione può essere ottenuta attraverso varie architetture:
 \begin{itemize}
 	\item \textbf{Commutazione in memoria.}\\
-	Avviene sotto il controllo diretto della CPU (ovvero il processore di instradamento), con le porte di ingresso e uscita trattate come dispositivi di I/O. I primi router usavano questa struttura, che con una determinata bandwidth della memoria tale da permettere di leggere e scrivere $B$ pacchetti per unità di tempo, il throughput complessivo d'inoltro deve necessariamente essere $< \frac{B}{2}$. Le operazioni di inoltro su due porte differenti non potevano nemmeno avvenire in contemporanea, a causa dell'impossibilità di effettuare due operazioni di lettura/scrittura contemporaneamente.\\
+	Avviene sotto il controllo diretto della CPU (ovvero il processore di instradamento), con le porte di ingresso e uscita trattate come dispositivi di I/O. I primi router usavano questa struttura, poiché, avendo una determinata bandwidth della memoria che permette di leggere e scrivere $B$ pacchetti per unità di tempo, il throughput complessivo d'inoltro deve necessariamente essere $< \frac{B}{2}$. Le operazioni di inoltro su due porte differenti non potevano nemmeno avvenire in contemporanea, a causa dell'impossibilità di effettuare due operazioni di lettura/scrittura contemporaneamente.\\
 	Alcuni router attuali effettuano commutazione in memoria, ma la ricerca dell'indice e la memorizzazione del pacchetto nella locazione di memoria opportuna avviene sulle line card di ingresso. Alcuni di questi router, somigliano a sistemi multiprocessore a memoria condivisa.
 	
 	\item \textbf{Commutazione tramite bus.}\\
-	In questo approccio le porte di ingresso trasferiscono un pacchetto direttamente alle porte di uscita tramite un bus condiviso e senza intervento dal processo di instradamento.\\
+	In questo approccio le porte di ingresso trasferiscono un pacchetto direttamente alle porte di uscita tramite un bus condiviso e senza l'intervento dal processo di instradamento.\\
 	Si ottiene aggiungendo al pacchetto un'etichetta di commutazione: questa indicherà la porta locale di output da cui dovrà uscire. Il pacchetto verrà ricevuto da tutte le porte d'output, ma solo la porta corrispondente lo raccoglierà. Un difetto di questo sistema? Solo un pacchetto alla volta può occupare il bus: la larghezza di banda della commutazione sarà limitata da quella del bus. Più pacchetti da commutare saranno messi in coda. È comunque un valido sistema per router in reti di accesso e aziendali. Gli switch Cisco della serie 5600 hanno una bandwidth di $32 \ Gbps$.
 	
 	\item \textbf{Commutazione attraverso rete di interconnessione.}\\
 	Usa una rete di interconnessione più sofisticata, con una matrice di commutazione (\textit{crossbar switch}): consiste in $2n$ bus che collegano $n$ porte di ingresso a $n$ porte d'uscita. Ogni bus verticale interseca tutti i bus orizzontali a un punto d'incrocio che può essere aperto o chiuso dal controller della struttura di commutazione in qualsiasi momento.
 	Quando un pacchetto che entra dalla porta $A$ deve essere inoltrato alla porta d'uscita $Y$, viene chiuso l'incrocio tra i bus $A-Y$.\\ Analogamente, questo avviene per l'entrata $B$ e l'uscita $X$. Quando sono coinvolte porte d'uscita differenti, i pacchetti possono essere trasferiti in parallelo, altrimenti si accoderanno alla porta d'output.\\
 	Architetture più sofisticate utilizzano strutture per la commutazione a più stadi, che permette di spostare in contemporanea pacchetti da più porte verso una sola porta.\\
-	Tra questi, i router Cisco CRS usano un'ulteriore strategia a $n$ strutture di commutazione: il pacchetto da trasferire viene suddisivo in $k$ frammenti (chunk). Ogni frammento verrà trasferito attraverso una struttura, mentre la porta di uscita si occuperà del riassemblaggio. Questo permette di avere ancora $n-k$ strutture di commutazione libere per eventuali altri pacchetti.
+	Tra questi, i router Cisco CRS usano un'ulteriore strategia a $n$ strutture di commutazione: il pacchetto da trasferire viene suddiviso in $k$ frammenti (chunk). Ogni frammento verrà trasferito attraverso una struttura, mentre la porta di uscita si occuperà del riassemblaggio. Questo permette di avere ancora $n-k$ strutture di commutazione libere per eventuali altri pacchetti.
 	\begin{figure}[htp]
 		\centering
 		\includegraphics[width=1\linewidth]{./images/commutationstructure.png}
@@ -86,7 +86,7 @@ Supponiamo che $R_{switch}= N \cdot R_{line}$, ovvero che il tasso di trasferime
 Nel tempo richiesto per ricevere o trasmettere un pacchetto, una porta potrebbe ricevere fino a $N$ pacchetti, causando la formazione di una coda nella porta d'uscita. Il numero di pacchetti nella coda d'uscita è direttamente proporzionale alla dimensione del buffer di quella porta. Quando il buffer è saturo e arriva un ulteriore pacchetto, si deve stabilire se effettuare un \textbf{drop-tail}, scartando il nuovo pacchetto, o rimuoverne uno o più di uno tra quelli già in coda, a favore del nuovo arrivato.
 
 \subsubsection{Quanta memoria assegnare al buffer}
-\verb|RFC 3439| stabiliva che la grandezza del buffer $B$ dovesse essere uguale al round trip time medio $RTT$ moltiplicato per la calacità del link $C$.\\
+\verb|RFC 3439| stabiliva che la grandezza del buffer $B$ dovesse essere uguale al round trip time medio $RTT$ moltiplicato per la capacità del link $C$.\\
 Un esempio? Un collegamento con bandwidth $10 \ Gbps$ con un RTT di $250 \ ms$ necessiterebbe di un buffer $B$ pari a
 $$
 B = RTT \cdot C = 10 \ Gbps \cdot 250 \ ms = 10 \cdot 0,25 = 2,5 \ Gbit
@@ -96,7 +96,7 @@ $$
 B \approx RTT \cdot \frac{C}{\sqrt{N}}
 $$
 Buffer troppo grandi aumentano i delay (soprattutto nei router di casa, che non gestiscono in maniera ottimale la coda, causando \textbf{bufferbloat}).
-RTT troppo lunghi rendonono i mittenti TCP meno reattivi. Alcuni controlli della congestione basati sul ritardo permettono di mantenere la linea occupata, senza riempire il buffer.
+RTT troppo lunghi rendono i mittenti TCP meno reattivi. Alcuni controlli della congestione basati sul ritardo permettono di mantenere la linea occupata, senza riempire il buffer.
 
 \begin{figure}[htp]
 	\centering
@@ -134,7 +134,7 @@ Non dimentichiamo, tuttavia, che i pacchetti sono unità discrete e che la loro 
 \section{I protocolli del livello di rete}
 \begin{itemize}
 	\item \textbf{IP protocol}.\\
-	E la formattazione dei pacchetti, l'addressing e le convenzioni relative alla gestione dei pacchetti.
+	È la formattazione dei pacchetti, l'addressing e le convenzioni relative alla gestione dei pacchetti.
 	\item \textbf{Path-selection algorithm.}\\
 	Che gestiscono l'instradamento dei pacchetti.
 	\item \textbf{Protocollo ICMP}.\\
@@ -170,7 +170,7 @@ Un sistema che permetteva di distinguere vari tipi di indirizzi IP è quello per
 \subsubsection{Alcuni indirizzi specifici}
 Questi indirizzi sono riservati a delle funzioni specifiche.
 \begin{itemize}
-	\item \verb|0.0.0.0| - This Host, usato su un host cui indirizzo non è ancora stato specificato (ma solo in IPv4, non in IPv6, che usa un indirizzo IP basato sul MAC Address. Guarda EUI-64, pagina 81).
+	\item \verb|0.0.0.0| - This Host, usato su un host il cui indirizzo non è ancora stato specificato (ma solo in IPv4, non in IPv6, che usa un indirizzo IP basato sul MAC Address. Guarda EUI-64, pagina 81).
 	\item \verb|255.255.255.255| - Broadcast relativo alla propria subnet.
 	\item \verb|127.0.0.0 - 127.255.255.255| - Localhost, riferimento a se stesso.
 	\item \verb|10.0.0.0 - 10.255.255.255| - Private IP.
@@ -213,7 +213,7 @@ Questa è la struttura di un datagramma IPv4. Osserviamo i singoli campi
 	\item \textbf{Internet Header Length.}\\
 	Indica la lunghezza dell'header del pacchetto IP, ovvero l'offset del campo dati, che varia da 5 word a 15 word (ovvero da 20 a 60 byte). Ciò dipende dalla presenza o meno del campo \textit{Options}.
 	\item \textbf{Type of Service.}\\
-	Da informazioni relative al servizio fornito, stabilendone la priorità.
+	Dà informazioni relative al servizio fornito, stabilendone la priorità.
 	
 	\item \textbf{Datagram length.}\\
 	Indica la dimensione in byte dell'intero pacchetto. Include quindi header e dati. 16 bit.
@@ -228,7 +228,7 @@ Questa è la struttura di un datagramma IPv4. Osserviamo i singoli campi
 	Specifica il protocollo del transport layer. 4 bit.
 	
 	\item \textbf{Header checksum.}\\
-	8 bit dedicati alla somma di controllo. Un pacchetto cui header risulta corrotto, viene scartato. Le operazioni sono di natura logica o matematica, ed il controllo è fatto a ogni router.
+	8 bit dedicati alla somma di controllo. Un pacchetto il cui header risulta corrotto, viene scartato. Le operazioni sono di natura logica o matematica, ed il controllo è fatto a ogni router.
 	
 	\item \textbf{Options.}\\
 	Quasi inutilizzate.
@@ -238,8 +238,8 @@ Questa è la struttura di un datagramma IPv4. Osserviamo i singoli campi
 \end{itemize}
 
 \subsection{Un problema: la frammentazione}
-Alcuni campi che non abbiamo ancora affrontato, sono quelli relativi alla frammentazione. Quando un datagramma IP viene frammentato in più datagrammi IP più piccoli, queste informazioni permettono la ricostruzione del frammento originale a destinazione.
-La frammentazione avviene quando un router ha MTU (Max Transfer Size) tale da non consentire il trasferiremnto dell'intero datagramma IP.
+Alcuni campi che non abbiamo ancora affrontato, sono quelli relativi alla frammentazione. Quando un datagramma IP viene frammentato in più datagrammi IP più piccoli, queste informazioni permettono la ricostruzione del datagramma originale a destinazione.
+La frammentazione avviene quando un router ha MTU (Max Transfer Size) tale da non consentire il trasferimento dell'intero datagramma IP.
 \begin{itemize}
 	\item \textbf{ID.}\\
 	16 bit, identificano un insieme di pacchetti IP che (presumibilmente) ricostruiranno un pacchetto originale.
@@ -294,12 +294,12 @@ Gli indirizzi IP non sono determinati in maniera arbitraria. Parte dell'indirizz
 	\includegraphics[width=0.5\linewidth]{./images/reteip.png}
 \end{figure}
 
-L'interfaccia di rete di un router e i dispositivi a essa collegata (magari tramite uno switch o da un punto di accesso Wireless) costituiscono una sottorete [RFC 950]. Ad esempio, IP assegna ad una sottorete l'indirizzo \verb|223.1.1.0/24|. La notazione \verb|/24| è chiamata maschera di rete, ed indica che i 24 bit più a sinistra dell'indirizzo definiscono l'indirizzo della sottorete. Questo vuol dire che tutti i dispositivi partecipanti a questa rete avranno indirizzo IP nella forma \verb|223.1.1.XXX|\footnote{Con XXX nel range $[2-254]$, escludendo $0$ in quanto \textit{forbidden}, 1 riservato ai router e 255 per il broadcast}.
+L'interfaccia di rete di un router e i dispositivi a essa collegati (magari tramite uno switch o da un punto di accesso Wireless) costituiscono una sottorete [RFC 950]. Ad esempio, IP assegna ad una sottorete l'indirizzo \verb|223.1.1.0/24|. La notazione \verb|/24| è chiamata maschera di rete, ed indica che i 24 bit più a sinistra dell'indirizzo definiscono l'indirizzo della sottorete. Questo vuol dire che tutti i dispositivi partecipanti a questa rete avranno indirizzo IP nella forma \verb|223.1.1.XXX|\footnote{Con XXX nel range $[2-254]$, escludendo $0$ in quanto \textit{forbidden}, 1 riservato ai router e 255 per il broadcast}.
 
 
 
 \subsubsection{Regola generale per individuare sottoreti}
-\textit{Per determinare le sottoreti, si sgancino le interfacce da host a router in maniera tale da creare isole di reti isolate delimitate dalle interfacce. Ognuna di queste reti isolate viene detta sottorete.}
+\textit{Per determinare le sottoreti, si sgancino le interfacce da host a router in maniera tale da creare sistemi di reti isolate delimitate dalle interfacce. Ognuna di queste reti isolate viene detta sottorete.}
 
 \newpage
 \subsection{CIDR - Classless InterDomain Routing}
@@ -380,7 +380,7 @@ Un indirizzo \textit{Media Access Control} è un codice a 6 byte che identifica 
 Sta per \textit{Address Resolution Protocol} [RFC 826], e traduce gli indirizzi IP in MAC address. Traduce gli indirizzi IP di dispositivi situati nella stessa sottorete. Convenzionalmente, gli indirizzi IP sono scritti in decimale, gli indirizzi MAC in esadecimale.
 
 \subsubsection{Come funziona?}
-Ogni nodo contiene una tabella ARP cui record contengono tre valori: \\ \verb|Indirizzo IP - Indirizzo MAC - Time To Live|.\\
+Ogni nodo contiene una tabella ARP i cui record contengono tre valori: \\ \verb|Indirizzo IP - Indirizzo MAC - Time To Live|.\\
 Il time-to-live specifica tra quanto tempo quel determinato record dovrà essere eliminato dalla tabella. Un tempo tipico sono 20 minuti.
 
 
@@ -391,7 +391,7 @@ Il time-to-live specifica tra quanto tempo quel determinato record dovrà essere
 	
 	\item Se l'indirizzo MAC è già presente nella ARP del nodo, questo manderà il datagramma senza ulteriori passaggi.
 	
-	\item Altrimenti, manderà una cosidetta "richiesta ARP" contenuta in un pacchetto ARP mandato all'indirizzo broadcast della rete \verb|FF-FF-FF-FF-FF-FF|.
+	\item Altrimenti, manderà una cosiddetta "richiesta ARP" contenuta in un pacchetto ARP mandato all'indirizzo broadcast della rete \verb|FF-FF-FF-FF-FF-FF|.
 	
 	\item Il pacchetto conterrà sia l'indirizzo IP e MAC del mittente, che l'indirizzo IP del destinatario.
 	
@@ -503,7 +503,7 @@ Il NAT ha il compito di tradurre gli indirizzi IP della propria sotto-rete sfrut
 \end{figure}
 
 \begin{enumerate}
-	\item Il router riceve i pacchetti da mandare all'esterno. Il NAT controlla se la coppia IP e porta è già presente nella tabella. Se non è presente, il NAT inserisce nella sua tabella un nuovo record, che servirà per le traduzioni. Nel lato LAN l'ip e la porta dell'interfaccia effettiva, nel lato WAN l'IP dell'interfaccia usata dal router lato WAN, e una porta generata casualmente tra quelle non usate dal quell'IP. Il NAT può gestire ben oltre 60.000 connessioni simultane con una sola interfaccia (e indirizzo IP) lato WAN!
+	\item Il router riceve i pacchetti da mandare all'esterno. Il NAT controlla se la coppia IP e porta è già presente nella tabella. Se non è presente, il NAT inserisce nella sua tabella un nuovo record, che servirà per le traduzioni. Nel lato LAN l'ip e la porta dell'interfaccia effettiva, nel lato WAN l'IP dell'interfaccia usata dal router lato WAN, e una porta generata casualmente tra quelle non usate dal quell'IP. Il NAT può gestire ben oltre 60.000 connessioni simultanee con una sola interfaccia (e indirizzo IP) lato WAN!
 	
 	\item Il NAT controlla la propria tabella, e sostituisce IP e la porta \verb|SOURCE| del pacchetto, con quelli associati lato WAN. Inoltra regolarmente il pacchetto.
 	
@@ -666,7 +666,7 @@ Se i due end-point di una comunicazione supportano IPv6, ma parte della rete che
 
 \newpage
 \section{ICMP - Internet Control Message Protocol}
-È un protocollo usato per la trasmissione di informazioni di controllo nella rete. Viene in IP ed è utilizzato per strumenti vari, tra cui \verb!ping! e \verb|traceroute|.
+È un protocollo usato per la trasmissione di informazioni di controllo nella rete. È integrato in IP ed è utilizzato per strumenti vari, tra cui \verb!ping! e \verb|traceroute|.
 ICMP esiste sia per IPv4 che per IPv6, e in IPv6 trova importante applicazione per i messaggi del \textbf{Neighbor Discovery Protocol}. ICMP include i campi:
 \begin{itemize}
 	\item \textbf{Tipo.}\\
@@ -680,7 +680,7 @@ ICMP esiste sia per IPv4 che per IPv6, e in IPv6 trova importante applicazione p
 \end{itemize}
 
 \section{Firewall}
-Sono delle\textbf{ strutture software, hardware o ibride} cui compito è \textbf{bloccare} e/o \textbf{filtrare il traffico malevolo}, in base ai valori relativi ai campi degli header, o effettuano un \textbf{reindirizzamento} per un'ulteriore elaborazione. \textbf{Gestire tutto ciò che costituisce una minaccia per la sicurezza}, e che passa attraverso la rete,\textbf{ è il compito principale dei firewall}, e per adempiere a questo scopo, sono definite delle regole di filtraggio intelligenti, basate su:
+Sono delle\textbf{ strutture software, hardware o ibride} il cui compito è \textbf{bloccare} e/o \textbf{filtrare il traffico malevolo}, in base ai valori relativi ai campi degli header, o effettuano un \textbf{reindirizzamento} per un'ulteriore elaborazione. \textbf{Gestire tutto ciò che costituisce una minaccia per la sicurezza}, e che passa attraverso la rete,\textbf{ è il compito principale dei firewall}, e per adempiere a questo scopo, sono definite delle regole di filtraggio intelligenti, basate su:
 \begin{itemize}
 	\item Indirizzi IP e porte di origine e destinazione.
 	\item Protocolli (TCP, UDP, ICMP...).

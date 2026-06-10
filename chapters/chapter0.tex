@@ -5,7 +5,7 @@ Tutto il mondo è connesso tramite le reti: Internet è la più grande rete di i
 Le reti velocizzano il trasferimento di dati: ciò avviene tramite un canale fisico, che permette il trasferimento di informazioni secondo dei protocolli stabiliti. Partecipano a queste interconnessioni non solo calcolatori, ma dispositivi (\textit{devices}) di qualsiasi tipo: server, data-center, dispositivi IoT e altro ancora. Data l'importanza delle reti al giorno d'oggi, diventa altrettanto importante \textbf{creare un'infrastruttura solida}, e un \textbf{insieme di protocolli} che assicurino la stabilità del sistema.
 
 \subsection{Cos'è una rete informatica}
-È una rete che permette di collegare più dispositivi (\textit{devices}), e metterli in comunicazione.\\
+È un'infrastruttura che permette di collegare più dispositivi (\textit{devices}), e metterli in comunicazione.\\
 Individuiamo due tipi di interconnessioni:
 \begin{itemize}
     \item \textbf{Connessione fisica.}\\
@@ -17,11 +17,11 @@ Individuiamo due tipi di interconnessioni:
 \newpage
 
 \section{Cos'è un protocollo}\label{1.2.1}
-I \textbf{protocolli di rete} sono delle \textbf{regole} che definiscono il \textbf{formato}, e l'\textbf{ordine}, la \textbf{semantica} e la \textbf{sintassi} dei "\textbf{messaggi}" mandati e ricevuti tra entità interconnesse tramite la rete, nonché le azioni da effettuare per \textbf{garantire un determinato servizio}. Garantire che i \textbf{protocolli} vengano usati dai \textbf{devices} appartenenti a una \textbf{rete}, è condizione necessaria per permetterne la \textbf{mutua comunicazione}.
+I \textbf{protocolli di rete} sono delle \textbf{regole} che definiscono il \textbf{formato}, e l'\textbf{ordine}, la \textbf{semantica} e la \textbf{sintassi} dei \textbf{messaggi} mandati e ricevuti tra entità interconnesse tramite la rete, nonché le azioni da effettuare per \textbf{garantire un determinato servizio}. Garantire che i \textbf{protocolli} vengano usati dai \textbf{devices} appartenenti a una \textbf{rete} è condizione necessaria per permetterne la \textbf{mutua comunicazione}.
 
 \subsection{Stack di protocolli}
 I protocolli di rete differiscono tra loro non solo per le loro caratteristiche, ma anche per il \textbf{livello} di appartenenza negli stack dei protocolli (ISO/OSI, TCP/IP).\\
-Ogni protocollo è infatti associato (più o meno rigidamente) ad un livello di uno stack, un'astrazione che ordina insiemi di protocolli dall'alto verso il basso, dipendentemente dal loro ruolo. In \textbf{alto} abbiamo i protocolli più astratti e vicini all'\textbf{utente}, in \textbf{basso} quelli più vicini al \textbf{sistema fisico}. Un messaggio che sfrutta un protocollo del livello più alto, "passa"\footnote{Un esempio? Una richiesta HTTP (protocollo del layer applicativo), sfrutta il protocollo TCP (del layer di trasporto), che sfrutta IP (del layer di rete). Un protocollo del livello $n$-esimo sfrutterà protocolli di tutti i livelli inferiori} attraverso protocolli dei layer inferiori.
+Ogni protocollo è infatti associato (più o meno rigidamente) ad un livello di uno stack, un'astrazione che ordina insiemi di protocolli dall'alto verso il basso, dipendentemente dal loro ruolo. In \textbf{alto} abbiamo i protocolli più astratti e vicini all'\textbf{utente}, in \textbf{basso} quelli più vicini al \textbf{sistema fisico}. Un messaggio che sfrutta un protocollo del livello più alto, "passa"\footnote{Un esempio? Una richiesta HTTP (protocollo del layer applicativo) sfrutta il protocollo TCP (del layer di trasporto), che sfrutta IP (del layer di rete). Un protocollo del livello $n$-esimo sfrutterà protocolli di tutti i livelli inferiori} attraverso protocolli dei layer inferiori.
 Ogni layer aggiunge un \textbf{header} al \textit{payload}, fornendo informazioni specifiche, per permettere la consegna del messaggio e la sua corretta interpretazione.
 Il ricevente, infatti, sfrutterà gli header relativi ai vari protocolli (dal basso verso l'alto) per \textbf{interpretare} l'informazione. 
 
@@ -32,11 +32,11 @@ Il ricevente, infatti, sfrutterà gli header relativi ai vari protocolli (dal ba
 \end{figure}
 
 \subsection{Header}
-Un \textbf{header} è un insieme di dati, sottoforma di bitstream, che offrono dati relativi al protocollo di appartenenza. Ogni protocollo, di un dato livello, inserirà un header con dei dati fondamentali per la trasmissione e l'interpretazione del messaggio. 
+Un \textbf{header} è un insieme di dati, sotto forma di bitstream, che offrono dati relativi al protocollo di appartenenza. Ogni protocollo, di un dato livello, inserirà un header con dei dati fondamentali per la trasmissione e l'interpretazione del messaggio. 
 
 \subsection{Il mezzo fisico}
 È fondamentale che il canale fisico sia gestito in maniera opportuna: il segnale che viene mandato è soggetto alla \textbf{resistenza} del mezzo fisico e alle imperfezioni della rete con conseguenti \textbf{distorsioni}. \\
-All'interno del mezzo fisico, ciò che viene trasferito, sono informazioni \textbf{logiche} codificate in livelli di tensione \textbf{fisici}: il sistema (solitamente) interpreta un segnale che supera i 2 volts come 1 (True), sotto i 0.8 volts 0 (False). Incluso tra 0.8 e 2 è indeterminato. 
+All'interno del mezzo fisico, ciò che viene trasferito sono informazioni \textbf{logiche} codificate in livelli di tensione \textbf{fisici}: il sistema (solitamente) interpreta un segnale che supera i 2 volt come 1 (True), sotto i 0.8 volt 0 (False). Incluso tra 0.8 e 2 è indeterminato. 
 
 \subsection{Obiettivo}
 L'obiettivo, nel costruire l'architettura fisica e la struttura logica di una rete, è quello di ottenere un sistema affidabile (\textit{reliable}) e libero da errori. Nel corso dello studio delle reti, andremo a conoscere molteplici protocolli e meccanismi per aumentare la \textit{reliability} della rete.
@@ -53,12 +53,12 @@ Un servizio di comunicazione tra host può essere di due tipologie.
 \end{itemize}
 
 \subsection{Connection oriented e le sue criticità}
-I sistemi connection oriented offrono informazioni relative alla ricezione del messaggio, ma non sempre è affidabile. Il segnale di ACK potrebbe essere bloccato (a causa di anomalie e guasti nelle infrastrutture), potrebbe arrivare in ritardo, perdersi o essere mal-interpretato.\\
-Non è sempre affidabile. La \textit{reliability} è una criticità, cui gravità aumenta se ricordiamo la seguente cosa: una rete è usata per collegare dispositivi, e quindi utenti, lontani. Le informazioni sono inviate e ricevute "alla cieca".\\ 
+I sistemi connection oriented offrono informazioni relative alla ricezione del messaggio, ma non sono sempre affidabili. Il segnale di ACK potrebbe essere bloccato (a causa di anomalie e guasti nelle infrastrutture), potrebbe arrivare in ritardo, perdersi o essere mal interpretato.\\
+Non è sempre affidabile. La \textit{reliability} è una criticità, la cui gravità aumenta se teniamo presente quanto segue: una rete è usata per collegare dispositivi, e quindi utenti, lontani. Le informazioni sono inviate e ricevute "alla cieca".\\ 
 Analogia simpatica: è l'equivalente del "ricevuto" nelle comunicazioni tramite walkie-talkie.
 
 \subsection{Temporizzazione come soluzione}
-Se entro un determinato lasso di tempo, non si è ricevuto il segnale di ACK relativo alla ricezione di un'informazione, l'informazione viene rimandata.\\
+Se entro un determinato lasso di tempo non si è ricevuto il segnale di ACK relativo alla ricezione di un'informazione, l'informazione viene rimandata.\\
 Questo meccanismo permette di \textbf{risolvere le criticità} relative alla comunicazione connection oriented.
 
 
@@ -91,4 +91,3 @@ Le reti distribuite si differenziano tra loro per l'ampiezza della distribuzione
     Ricoprono un'intera nazione, si parla di un raggio che va dai 1000 ai 5000km.
 \end{itemize}
 Internet è considerabile una WAN (di WAN).
-

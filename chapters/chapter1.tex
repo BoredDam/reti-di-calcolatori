@@ -1,7 +1,7 @@
 \chapter{Application Layer}
 
 \section{Introduzione al livello di applicazione}
-È il livello \textbf{più alto} nello stack dei protocolli, ed è quello \textbf{più vicino all'utente}. È infatti il livello delle \textbf{applicazioni di rete}: la vastità delle funzionalità offerte dalle reti, sono \textbf{alla base del successo di Internet}. \textbf{Trasferire e-mail o file}? \textbf{VoiP}? Comandare via \textbf{remoto} un altro computer? Questa è solo la punta dell'iceberg di ciò che le applicazioni di rete del livello apllicativo ci permettono di fare. Come abbiamo già detto, il layer application sfrutta i layer inferiori: primo tra tutti, il livello di trasporto, di cui parleremo dopo. Ogni applicazione di rete si può basare su uno tra due paradigmi (o architetture). Il paradigma \textbf{Client-Server}, e il paradigma \textbf{Peer-to-Peer}.
+È il livello \textbf{più alto} nello stack dei protocolli, ed è quello \textbf{più vicino all'utente}. È infatti il livello delle \textbf{applicazioni di rete}: la vastità delle funzionalità offerte dalle reti, è \textbf{alla base del successo di Internet}. \textbf{Trasferire e-mail o file}? \textbf{VoiP}? Comandare via \textbf{remoto} un altro computer? Questa è solo la punta dell'iceberg di ciò che le applicazioni di rete del livello applicativo ci permettono di fare. Come abbiamo già detto, il layer application sfrutta i layer inferiori: primo tra tutti, il livello di trasporto, di cui parleremo dopo. Ogni applicazione di rete si può basare su uno tra due paradigmi (o architetture). Il paradigma \textbf{Client-Server}, e il paradigma \textbf{Peer-to-Peer}.
 
 \subsection{Paradigma Client-Server}
 In questa architettura evidenziamo due attori principali: il \textbf{server}, un host sempre attivo che risponde alle richieste, e i \textbf{client}, host che mandano richieste al server. HTTP, IMAP, FTP sono alcuni tra i protocolli che sfruttano questo paradigma.
@@ -15,18 +15,18 @@ In questa architettura evidenziamo due attori principali: il \textbf{server}, un
 
 
 \subsection{Paradigma peer-to-peer}
-In un'infrastruttura di rete potrebbe esserci la necessità di far comunicare \textbf{più client tra loro senza passare attraverso un server}: la comunicazione \textbf{peer-to-peer} permette ciò. I client sono \textbf{idem-potenti}, sullo stesso livello. Ogni host (detto anche peer) può essere sia server che client.
+In un'infrastruttura di rete potrebbe esserci la necessità di far comunicare \textbf{più client tra loro senza passare attraverso un server}: la comunicazione \textbf{peer-to-peer} permette ciò. I client sono \textbf{di pari livello}, ogni host (detto anche peer) può essere sia server che client.
 È un'architettura scalabile, aggiungere un altro peer (nodo, partecipante alla comunicazione) è un processo immediato.\\
-I peers non devono essere sempre accesi, e i loro indirizzi IP possono cambiare.\\
-La comunicazione peer-to-peer ha come svantaggio la \textbf{complessità} in termini \textbf{di gestione} (lo scambio di pacchetti deve essere gestito in maniera consona per evitare errori) e il \textbf{forte impatto sulla banda} dei peers coinvolti. BitTorrent segue questo paradigma.
+I peer non devono essere sempre accesi, e i loro indirizzi IP possono cambiare.\\
+La comunicazione peer-to-peer ha come svantaggio la \textbf{complessità} in termini \textbf{di gestione} (lo scambio di pacchetti deve essere gestito in maniera consona per evitare errori) e il \textbf{forte impatto sulla banda} dei peer coinvolti. BitTorrent segue questo paradigma.
 
 \subsection{Socket}
-Un socket è un'interfaccia software che permette ad un processo di mandare dati verso la rete. Non sarebbe sbagliato immaginarli come delle porte, che possono essere aperte proprio tramite software: nello specifico, sono aperte tramite delle \textbf{primitive del sistema operativo}, il quale si occuperà della loro gestione indipendentemente dall'applicazione. I socket sono quindi a cavallo tra il livello applicativo e quello di trasporto, il quale che non sarà oggetto di interesse (perlomeno, approfondito) da parte di un ipotetico sviluppatore di applicazioni di rete. Ogni connessione, coinvolge sempre due socket, uno per lato.
+Un socket è un'interfaccia software che permette ad un processo di mandare dati verso la rete. Non sarebbe sbagliato immaginarli come delle porte, che possono essere aperte proprio tramite software: nello specifico, sono aperte tramite delle \textbf{primitive del sistema operativo}, il quale si occuperà della loro gestione indipendentemente dall'applicazione. I socket sono quindi a cavallo tra il livello applicativo e quello di trasporto, il quale non sarà oggetto di interesse (perlomeno, approfondito) da parte di un ipotetico sviluppatore di applicazioni di rete. Ogni connessione coinvolge sempre due socket, uno per lato.
 
 \newpage
 
 \subsection{Indirizzi IP e porte.}
-Un host runna $n$ processi. Un indirizzo IP (IPv4 o IPv6) identifica un host,\underline{ ma non il processo coinvolto}\\ \underline{nella connessione}: ne consegue che l'IP è identificativo (logico) per gli host, ma non per i processi degli host.
+Un host esegue $n$ processi. Un indirizzo IP (IPv4 o IPv6) identifica un host,\underline{ ma non il processo coinvolto}\\ \underline{nella connessione}: ne consegue che l'IP è identificativo (logico) per gli host, ma non per i processi degli host.
 L'identificazione del processo di una macchina con IP noto, avviene tramite il numero di porta. 
 \begin{verbatim}
     IP address: 128.119.245.12
@@ -78,7 +78,7 @@ Un protocollo del livello applicativo è caratterizzato dalle seguenti caratteri
     \item \textbf{Tipo di messaggi.}\\
     Come messaggi di richiesta e di risposta.
     \item \textbf{Sintassi dei messaggi.}\\
-    I campi dei messaggi. Nei protocollo HHTP e SMTP, ad esempio, sono definiti dei campi ben precisi (alcuni di loro obbligatori).
+    I campi dei messaggi. Nei protocollo HTTP e SMTP, ad esempio, sono definiti dei campi ben precisi (alcuni di loro obbligatori).
     \item \textbf{Semantica dei messaggi.}\\
     Il significato delle informazioni all'interno dei campi e come interpretarli.
     \item \textbf{Regole} sul come e quando mandare e rispondere ai \\messaggi.
@@ -95,7 +95,7 @@ Per offrire una spiegazione completa dell'application layer, diamo una breve int
     \item \textbf{Integrità dei dati.}\\
     Posso permettermi di perdere dei dati? O necessito di un trasferimento totalmente lossless?
     \item \textbf{Throughput.}\\
-    Quantità di dati trasferiti in un'unità di tempo. Larghezza di banda e distanza tra gli host influenza questo valore.
+    Quantità di dati trasferiti in un'unità di tempo. Larghezza di banda e distanza tra gli host influenzano questo valore.
     \item \textbf{Timing.}\\
     Posso avere della latenza o devo offrire un servizio quanto più responsivo e istantaneo possibile?
     \item \textbf{Sicurezza.}\\
@@ -111,7 +111,7 @@ Offre le seguenti specifiche:
     \item \textbf{Trasporto affidabile}.\\ 
     (\textit{Reliable transport}) tra mittente e destinatario, tramite meccanismi di \textit{ACKnowledgment} dei pacchetti.
     \item \textbf{Controllo del flusso} (\textit{flow control}).\\
-    Il mittente, cercherà di \textbf{non sovraccaricare} il \textbf{ricevente}, per minimizzare la perdita di pacchetti.
+    Il mittente cercherà di \textbf{non sovraccaricare} il \textbf{ricevente}, per minimizzare la perdita di pacchetti.
     \item \textbf{Controllo della congestione} (\textit{congestion control}).\\
     La banda viene limitata quando la \textbf{rete è sovraccaricata}.
     \item \textbf{Connection oriented}.\\
@@ -136,9 +136,9 @@ Offre le seguenti specifiche:
     Non ha alcun tipo di handshake che stabilisca la connessione tra i due host.
     \item \textbf{Unreliable.}\\
     Nessuno scambio di ACK.
-    \item \textbf{Alcun controllo del flusso.}\\
+    \item \textbf{Nessun controllo del flusso.}\\
     UDP non gestisce il proprio throughput in funzione della congestione della rete, o del sovraccarico del receiver.
-    \item \textbf{Alcuna garanzia sul throughut minimo.}    
+    \item \textbf{Nessuna garanzia sul throughput minimo.}    
 \end{itemize}
 
 UDP non è un protocollo sicuro: scopriremo però come il suo essere "ridotto all'osso", \textit{barebones}, sia il suo più grande punto di forza. È usato nei protocolli applicativi VoiP, streaming audio-video e gaming.
@@ -147,7 +147,7 @@ UDP non è un protocollo sicuro: scopriremo però come il suo essere "ridotto al
 \newpage
 
 \section{Telnet}
-\textbf{Telnet} (da TErminaL NETwork) è un protocollo applicativo che permette di controllare il \textbf{terminale} di un'altro host \textbf{da remoto}. 
+\textbf{Telnet} (da TErminaL NETwork) è un protocollo applicativo che permette di controllare il \textbf{terminale} di un altro host \textbf{da remoto}. 
 \begin{figure}[htp]
     \centering
     \includegraphics[width=0.5\linewidth]{./images/Requisiti di Telnet.png}
@@ -164,7 +164,7 @@ Basato sul protocollo di trasferimento TCP, Telnet sfrutta il three-way handshak
     \caption{Esempio di Telnet}
 \end{figure}
 
-Un fatto interessante, è che Telnet può essere usato come strumento di debug per Server HTTP o Mail Server, inserendo come porta destinazione, una porta diversa dalla 23.
+Un fatto interessante è che Telnet può essere usato come strumento di debug per Server HTTP o Mail Server, inserendo come porta destinazione, una porta diversa dalla 23.
 
 
 \subsection{Remote Desktop Protocol}
@@ -190,7 +190,7 @@ La porta di controllo è la porta 21, su cui il server riceve le richieste. La p
 
 \subsection{Vulnerabilità del protocollo FTP}
 \begin{itemize}
-    \item Abilitare l'accesso all'intero file sistem tramite FTP è una mossa rischiosa: bisogna regolare quali porzioni rendere accessibili.
+    \item Abilitare l'accesso all'intero file system tramite FTP è una mossa rischiosa: bisogna regolare quali porzioni rendere accessibili.
     \item Le credenziali di accesso e i dati (di default) sono trasmessi in chiaro, rendendo FTP vulnerabile ad attacchi man-in-the-middle e allo sniffing. Il protocollo \textbf{SFTP} risolve il problema implementando l'encryption di SSH. Usa la stessa porta di SSH, la porta 22.
 \end{itemize}
 
@@ -201,7 +201,7 @@ Upload e download di file su host remoto, TCP porta 21 (porta di controllo) e TC
 
 \section{HTTP - HyperText Transfer Protocol}
 \textbf{HTTP} permette ad un host di richiedere delle risorse, chiamate oggetti, ad un Web Server. Questi oggetti possono essere pagine HTML, file multimediali di vario tipo (e, col modello DHTML, affiancate alle pagine HTML, abbiamo anche fogli di stile CSS e file Javascript). Per accedere a queste risorse usiamo un URL (\textit{Uniform Resource Locator}). È quindi il protocollo alla base delle pagine Web, e segue (banalmente) l'architettura Client-Server.
-La porta dedicata al protocollo, lato server, è la porta 80, ed è la porta da cui il server riceverà le richieste. Ricordiamo che la porta sorgente del client, è stabilita (casualmente) dall'OS.
+La porta dedicata al protocollo, lato server, è la porta 80, ed è la porta da cui il server riceverà le richieste. Ricordiamo che la porta sorgente del client è stabilita (casualmente) dall'OS.
 
 \begin{figure}[htp]
     \centering
@@ -333,7 +333,7 @@ Server Error Codes.
 \newpage
 
 \subsection{Parentesi Stateless, Stateful e Cookies}
-Il protocollo HTTP è di default, un protocollo di tipo \textbf{stateless}. Tuttavia, con l'introduzione dei \textbf{cookies}, HTTP può memorizzare degli stati, diventando \textbf{stateful}\footnote{Un protocollo stateless può comunque avere un log delle azioni relative alle sessioni precedenti, ma ciò non cambierà il suo comportamento. Un web-server PHP hostato con Apachi non diventa magicamente stateful se aggiungiamo un log. Rettifica importante, soprattutto in sede d'esame.}.
+Il protocollo HTTP è di default, un protocollo di tipo \textbf{stateless}. Tuttavia, con l'introduzione dei \textbf{cookies}, HTTP può memorizzare degli stati, diventando \textbf{stateful}\footnote{Un protocollo stateless può comunque avere un log delle azioni relative alle sessioni precedenti, ma ciò non cambierà il suo comportamento. Un web-server PHP hostato con Apache non diventa magicamente stateful se aggiungiamo un log. Rettifica importante, soprattutto in sede d'esame.}.
 
 \begin{itemize}
     \item \textbf{Stateless.}\\
@@ -420,13 +420,13 @@ Usa il protocollo \textbf{TCP} e sulla \textbf{porta 25}.
         \hline
         \textbf{Header} & \textbf{Significato}\\
         \hline
-        \cellcolor{blue!25}To: & Indirizzi e-mail del destinatari primari\\
+        \cellcolor{blue!25}To: & Indirizzi e-mail dei destinatari primari\\
         \hline
         Cc: & Indirizzi e-mail dei destinatari secondari\\
         \hline
         Bcc: & Come Cc: ma gli indirizzi e-mail non sono visibili\\
         \hline
-        \cellcolor{blue!25}From: & Indirizzo e-mail di chi ha scritto il messaggio:\\
+        \cellcolor{blue!25}From: & Indirizzo e-mail di chi ha scritto il messaggio\\
         \hline
         Sender: & Indirizzo e-mail dell'effettivo mittente\\
         \hline
@@ -437,11 +437,11 @@ Usa il protocollo \textbf{TCP} e sulla \textbf{porta 25}.
         \hline
         Date: & Data e ora di invio\\
         \hline
-        Reply-to: & Indirizzo e-mail a cui le risposte dovrebbero essere inviati\\
+        Reply-to: & Indirizzo e-mail a cui le risposte dovrebbero essere inviate\\
         \hline
         Message-id: & Id univoco del messaggio\\
         \hline
-        In-Reply-To:& Id del messaggio a cui si ha risposto\\
+        In-Reply-To:& Id del messaggio a cui si è risposto\\
         \hline
         References: & Altri id di messaggi\\
         \hline
@@ -501,7 +501,7 @@ Il protocollo DNS supporta inoltre:
 
 \subsection{DNS - Transport Layer}
 Le richieste \textbf{sono mandate} alla \textbf{porta 53} dei server DNS. Il protocollo usa \textbf{sia UDP}, che \textbf{TCP}. Per le banali query del servizio, si predilige UDP, e TCP è riservato per risolvere circostanze particolari, come informazioni troncate.
-TCP è sempre usato durante i \textbf{zone transfer}, ossia quando un DNS primario vuole effettuare una copia dei suoi record ad uno o più server DNS secondari.
+TCP è sempre usato durante gli \textbf{zone transfer}, ossia quando un DNS primario vuole effettuare una copia dei suoi record ad uno o più server DNS secondari.
 
 \subsection{Struttura del DNS}
 È un \textbf{database distribuito}, con una \textbf{struttura gerarchica} ad albero che \textbf{velocizza la ricerca dell'IP}.\\
@@ -666,7 +666,7 @@ Il \textbf{Simple Network Management Protocol} è un protocollo di rete \textbf{
     \item \textbf{Protocollo SNMP.}\\
     È il protocollo vero e proprio utilizzato nella comunicazione tra agenti e manager. È basato sul paradigma client-server. Il manager è il client, l'agente fa da server.
 \end{itemize}
-Usa il protocollo \textbf{UDP} e la\textbf{porta 161} degli agenti per mandarme messaggi, e la \textbf{porta 162} del manager per ricevere le \textbf{notifiche} (\textit{traps}).\\
+Usa il protocollo \textbf{UDP} e la\textbf{porta 161} degli agenti per mandare messaggi, e la \textbf{porta 162} del manager per ricevere le \textbf{notifiche} (\textit{traps}).\\
 Le \textbf{traps} sono generate successivamente a \textbf{malfunzionamenti, eventi e anomalie}.
 
 \subsection{Messaggi SNMP}
@@ -689,7 +689,7 @@ Le \textbf{traps} sono generate successivamente a \textbf{malfunzionamenti, even
 \end{itemize}
 
 \subsection{Versioni di SNMP}
-La prima versione di SNMP presentava anumerose criticità in termini di sicurezza e performance migliorabili. La seconda e la terza versione migliorano la sicurezza del protocollo, le performance. In particolare con la terza versione, viene introdotta la crittografia per i dati e un sistema di autenticazione.
+La prima versione di SNMP presentava numerose criticità in termini di sicurezza e performance migliorabili. La seconda e la terza versione migliorano la sicurezza del protocollo, le performance. In particolare con la terza versione, viene introdotta la crittografia per i dati e un sistema di autenticazione.
 
 \subsubsection{SNMP in breve}
 \textbf{Simple Network Management Protocol} offre un servizio per la gestione. UDP, \textbf{porta 161 degli agenti}, \textbf{porta 162 del manager}. Architettura client-server: i server sono gli agenti. Ogni dispositivo agente ha una base di dati contenente oggetti per gestire i dispositivi di rete e i loro attributi. I dispositivi possono segnalare anomalie al manager tramite delle traps. È un protocollo \textbf{connectionless} con \textbf{comunicazioni asincrone}.

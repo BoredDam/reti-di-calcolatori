@@ -1,6 +1,6 @@
 # Reti di Calcolatori
 
-Per accedere agli appunti, andare nella sezione "releases".
+Per accedere agli appunti, andare nella sezione "releases", oppure puoi [cliccare qui](https://github.com/BoredDam/reti-di-calcolatori/releases/latest).
 
 ## Argomenti Trattati
 

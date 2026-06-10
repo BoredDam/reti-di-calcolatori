@@ -1,14 +1,14 @@
 \chapter{Transport Layer}
 
 \section{Introduzione al Transport Layer}
-Il transport layer è situato tra l'application e il network layer. I protocolli di questo livello, permettono all'application layer di usufruire di una \textbf{connessione logica tra processi}, e quindi di una comunicazione \textbf{end-to-end}. 
+Il transport layer è situato tra l'application e il network layer. I protocolli di questo livello permettono all'application layer di usufruire di una \textbf{connessione logica tra processi}, e quindi di una comunicazione \textbf{end-to-end}. 
 
-\subsection{Connessione logico, connessione reale}
-Introducendo il concetto di \textbf{protocollo}, abbiamo capito che questi forniscono delle specifiche di "incapsulamento" e delle specifiche di "interpretazione" dei dati. Inoltre, abbiamo capito che in termini esclusivamente \textbf{logici}.,  l'$i$-esimo layer di un host $A$, comunica direttamente con l'$i$-esimo layer dell'host $B$. $A$ incapsula i dati con header opportuni, $B$ interpreta in maniera opportuna seguendo le indicazioni del protocollo e degli header.\\
+\subsection{Connessione logica, connessione reale}
+Introducendo il concetto di \textbf{protocollo}, abbiamo capito che questi forniscono delle specifiche di "incapsulamento" e delle specifiche di "interpretazione" dei dati. Inoltre, abbiamo capito che in termini esclusivamente \textbf{logici},  l'$i$-esimo layer di un host $A$, comunica direttamente con l'$i$-esimo layer dell'host $B$. $A$ incapsula i dati con header opportuni, $B$ interpreta in maniera opportuna seguendo le indicazioni del protocollo e degli header.\\
 Ogni layer ha un ruolo specifico, in particolare:
 \begin{itemize}
 	\item Il \textbf{livello di trasporto} crea una \textbf{connessione logica tra processi}.
-	\item Il \textbf{livello di rete}, crea una \textbf{connessione logica tra host}.
+	\item Il \textbf{livello di rete} crea una \textbf{connessione logica tra host}.
 	\item Il \textbf{livello di collegamento} (Data Link) si occupa della \textbf{comunicazione fisica} tra due host (fisicamente) collegati.
 \end{itemize}
 
@@ -26,11 +26,11 @@ Nonostante la comunicazione \textbf{end-to-end logica} tra il transport layer de
 	\item Un host desidera mandare una richiesta HTTP. Crea il messaggio HTTP secondo il protocollo dell'application layer.
 	\item Passa il messaggio HTTP al livello di trasporto, che lo incapsula in un segmento TCP.
 	\item Il livello di trasporto, passa il segmento al livello di rete, che lo incapsula in un pacchetto (o datagramma) IP.
-	\item Infine, il livello Data Link, si occupa di incapsulare in un frame il pacchetto fornito dal livello di rete.
+	\item Infine, il livello Data Link si occupa di incapsulare in un frame il pacchetto fornito dal livello di rete.
 	\item Avviene la trasmissione.
 \end{enumerate}
 
-Al sender, corrisponderà una sequenza di passaggi simili, ma dal basso verso l'alto, con un decapsulamento guidato dalle informazioni degli header, che permetteranno ad ogni layer di interpretare correttamente i dati ricevuti. Per ora, non approfondiamo nemmeno quanto l'inoltro da un router all'altro complichi la sitauzione! 
+Al sender, corrisponderà una sequenza di passaggi simili, ma dal basso verso l'alto, con un decapsulamento guidato dalle informazioni degli header, che permetteranno ad ogni layer di interpretare correttamente i dati ricevuti. Per ora, non approfondiamo nemmeno quanto l'inoltro da un router all'altro complichi la situazione! 
 
 
 \section{Multiplexing e Demultiplexing}
@@ -40,7 +40,7 @@ Sono le tecniche utilizzate dal livello di trasporto, per garantire che \textbf{
 Il \textbf{multiplexing avviene al mittente}, è il processo con cui un host incapsula i frammenti di dati provenienti da uno o più sockets in \textbf{segmenti del transport layer} con opportuni header, che verranno poi usati in fase di demultiplexing dal receiver.
 
 \subsection{Demultiplexing}
-\textbf{Il demultiplexing vviene al destinatario}. Consiste nella \textbf{consegna dei segmenti al socket corretto}, e quindi al processo corretto, sfruttando le specifiche degli header, tra cui, chiaramente, la porta.
+\textbf{Il demultiplexing avviene al destinatario}. Consiste nella \textbf{consegna dei segmenti al socket corretto}, e quindi al processo corretto, sfruttando le specifiche degli header, tra cui, chiaramente, la porta.
 
 \begin{figure}[htp]
 	\centering
@@ -123,7 +123,7 @@ Introduce \textbf{un checksum} e un \textbf{meccanismo di ACK} (senza checksum).
 	\item Se il sender riceve ACK, ritorna allo stato iniziale ($\Lambda$), altrimenti rimanda il pacchetto arrivato corrotto.
 \end{itemize}
 
-Ipotizzare che il backward sia perfetto, è che ACK e NAK arrivino sempre integri, è azzardato: un ACK potrebbe corrompersi, diventare un NAK o non arrivare mai. Un hacker potrebbe sfruttare questa debolezza sostituendo tutti i pacchetti ACK con un NAK o un pacchetto differente, secondo l'approccio \textbf{Man-In-The-Middle}.
+Ipotizzare che il backward sia perfetto, e che ACK e NAK arrivino sempre integri, è azzardato: un ACK potrebbe corrompersi, diventare un NAK o non arrivare mai. Un hacker potrebbe sfruttare questa debolezza sostituendo tutti i pacchetti ACK con un NAK o un pacchetto differente, secondo l'approccio \textbf{Man-In-The-Middle}.
 
 \newpage
 \subsection{RDT 2.1 - Errori sul forward e sul backward}
@@ -173,7 +173,7 @@ Macchina a stati finiti analoga a quella di RDT 2.2. La temporizzazione è gesti
 \newpage
 
 \section{Calcolo del Throughput}
-Il \textbf{throughput} è un'indice della capacità di trasmissione di un canale di comunicazione. 
+Il \textbf{throughput} è un indice della capacità di trasmissione di un canale di comunicazione. 
 
 $$
 \text{Throughput} = \frac{\text{Numero di bit (o byte) trasmessi con successo}}{\text{Tempo impiegato}}
@@ -221,7 +221,7 @@ $$
 \newpage
 
 \subsection{Throughput effettivo}
-Quello appena calcolato, è da definirsi un \textbf{througput teorico}. Il \textbf{throughput effettivo} è influenzato anche da altri elementi di attesa, quali \textit{Round Trip Time}, tempi di elaborazione e di trasferimento relativi agli \textbf{ACK}.
+Quello appena calcolato, è da definirsi un \textbf{throughput teorico}. Il \textbf{throughput effettivo} è influenzato anche da altri elementi di attesa, quali \textit{Round Trip Time}, tempi di elaborazione e di trasferimento relativi agli \textbf{ACK}.
 
 \subsubsection{RTT - Round Trip Time}
 Il Round Trip Time può essere stimato, e dedicheremo una sezione proprio alle metodologie di stima. È definito come il tempo che intercorre tra l'inizio dell'invio di un messaggio, e la ricezione della sua conferma.
@@ -261,13 +261,13 @@ Il \textbf{tempo di propagazione} è il tempo richiesto ad un segnale per trasme
 Inoltre, se la bandwidth effettiva calcolata è superiore a quella teorica, allora la bandwidth teorica funge da collo di bottiglia: la bandwidth effettiva sarà uguale a quella teorica, in quanto limite massimo.
 
 \subsection{Ping}
-Il comando \verb|ping| è un utility che permette di calcolare l'RTT necessario per la connessione ad un server, e fornisce anche la percentuale di pacchetti persi. Usa il protocollo ICMP.
+Il comando \verb|ping| è un'utility che permette di calcolare l'RTT necessario per la connessione ad un server, e fornisce anche la percentuale di pacchetti persi. Usa il protocollo ICMP.
 
 \newpage
 
 
 \section{Modalità Pipeline}
-È una modalità che consente di aumentare il throughput di una rete. Invece di inviare un singolo frame e aspettare il rispettivo ACK (modalità esposta in precedenza, nota come modalità \textbf{stop-and-wait}), si stabilisce una window di $n$ frame di cui si \textbf{potranno aspettare gli ACK contemporaneamente}. Questo\textbf{ riduce di molto l'influenza del $RTT$ sul throghput}, riducendo di molto l'\textit{overhead} delle singole trasmissioni. L'utilizzo della modalità pipeline è chiaramente più \textbf{vantaggiosa della stop-n-wait}, soprattutto nel contesto di \textbf{reti ad alta latenza}. La finestra d'invio verrà succesivamente indicata con il nome \verb|cwnd|, nel contesto del controllo della congestione.
+È una modalità che consente di aumentare il throughput di una rete. Invece di inviare un singolo frame e aspettare il rispettivo ACK (modalità esposta in precedenza, nota come modalità \textbf{stop-and-wait}), si stabilisce una window di $n$ frame di cui si \textbf{potranno aspettare gli ACK contemporaneamente}. Questo\textbf{ riduce di molto l'influenza del $RTT$ sul throughput}, riducendo di molto l'\textit{overhead} delle singole trasmissioni. L'utilizzo della modalità pipeline è chiaramente più \textbf{vantaggiosa della stop-n-wait}, soprattutto nel contesto di \textbf{reti ad alta latenza}. La finestra d'invio verrà successivamente indicata con il nome \verb|cwnd|, nel contesto del controllo della congestione.
 
 \subsubsection{Esempio}
 Vogliamo mandare pacchetti di 1000 byte.\\
@@ -278,7 +278,7 @@ Il tempo teoricamente richiesto sarebbe
 $$
 T_{frame} = \frac{\text{Dimensione dati (in bit)}}{\text{Bandwidth (in bit/s)}} = \frac{8\cdot 10^3 \text{ bit}}{1\cdot10^9 \text{ bit/s}}= 8\cdot 10^{-6} \ s = 8 \mu s
 $$
-a cui aggiungere $30000 \mu s$. Otteniamo un througput effettivo di
+a cui aggiungere $30000 \mu s$. Otteniamo un throughput effettivo di
 $$
 \frac{\text{Dimensione del frame (in bit)}}{\text{Tempo totale di trasmissione (in s)}} = \frac{8000 \text{ bit}}{30008 \mu s} = \frac{8000 \text{ bit}}{30,008 \ ms} = \frac{8000 \text{ bit}}{0,030008 \ s} = 266595 \ bps \approx 267 \ Kbps
 $$
@@ -332,7 +332,7 @@ Riceve i pacchetti e risponde con gli \verb|ACK| rispettivi. Quando non riceve i
 
 
 \subsubsection{Criticità del Go-Back-N}
-Osserviamo che se l'$n$-esimo pacchetto non è stato ricevuto con successo, tutti i successivi pacchetti mandati verranno scartati. Nell'immagine della prossima pagina, si evidenzia come il primo inoltro dei pacchetti 3, 4 e 5 sia praticamente cestinato. È un algoritmo solido e reliable, ma rischia grosse perdite di tempo a causa dell'\verb|ACK| cumulativo.
+Osserviamo che se l'$n$-esimo pacchetto non è stato ricevuto con successo, tutti i successivi pacchetti mandati verranno scartati. Nell'immagine della prossima pagina, si evidenzia come il primo inoltro dei pacchetti 3, 4 e 5 viene scartato. È un algoritmo solido e reliable, ma rischia grosse perdite di tempo a causa dell'\verb|ACK| cumulativo.
 \newpage
 
 \begin{figure}[htp]
@@ -557,7 +557,7 @@ Gli header dei segmenti TCP occupano \textbf{dai 20 ai 60 byte}, (ricordiamo che
 
 \newpage
 
-\section{Migliorare il Througput - MMS e MTU}
+\section{Migliorare il Throughput - MMS e MTU}
 I meccanismi appena esposti rendono TCP un protocollo affidabile. Tuttavia, anche il \textbf{throughput} è un fattore da tenere in considerazione. Per massimizzare il throughput, dobbiamo analizzare una serie di parametri.
 
 \subsection{MMS, MTU}
@@ -572,8 +572,8 @@ I meccanismi appena esposti rendono TCP un protocollo affidabile. Tuttavia, anch
 
 Il protocollo TCP richiede un MTU minimo di 576 bytes, e quindi un MSS minimo di 536 bytes + 40 bytes di header IP (20 byte) e TCP (20 bytes).
 
-\section{Migliorare il Througput - Retransmission Time-Out}
-Affrontando l'argomento del \textbf{Reliable Data Transfer}, abbiamo spiegato che il meccanismo di \textbf{temporizzazione è fondamentale} per ottenere un trasferimento dati \textbf{reliable}. Nonostante ciò, bisogna trovare un buon \textbf{compromesso} per non impattare negativamente sul througput. \textbf{Il time-out va stabilito in funzione del Round Trip Time}.
+\section{Migliorare il Throughput - Retransmission Time-Out}
+Affrontando l'argomento del \textbf{Reliable Data Transfer}, abbiamo spiegato che il meccanismo di \textbf{temporizzazione è fondamentale} per ottenere un trasferimento dati \textbf{reliable}. Nonostante ciò, bisogna trovare un buon \textbf{compromesso} per non impattare negativamente sul throughput. \textbf{Il time-out va stabilito in funzione del Round Trip Time}.
 
 \begin{itemize}
 	\item \textbf{Time-out troppo lungo?}\\
@@ -698,14 +698,14 @@ In programmi che richiedono bassa latenza e alta reattività, alcuni sistemi ope
 Il three-way handshake è tra gli aspetti caratterizzanti del protocollo TCP. Andiamo adesso ad analizzarlo nel dettaglio, e ad analizzare perché un two-way handshake non sarebbe funzionale.
 
 \subsection{2-way handshake (un'intuizione inconcludente)}
-Prima dell'introduzione del three-way handshake, si è considerato un approccio più semplice (e vicino a quello umano) con un \textbf{two-way handshake}. Si è presto realizzato che un two-way handshake apre le porte a situazioni di \textbf{connessioni half open}. 
+Prima dell'introduzione del three-way handshake, si è considerato un approccio più semplice (e vicino a quello umano) con un \textbf{two-way handshake}. Si è presto realizzato che un two-way handshake apre le porte a situazioni di \textbf{connessioni half-open}. 
 
 \begin{enumerate}
 	\item $A$ richiede la connessione a $B$.
 	\item $B$ manda un'ACK, apre la connessione
 	\item $A$ riceve l'ACK, partecipa alla connessione.
 \end{enumerate}
-\textbf{E se l'ACK si perde?}
+\textbf{Cosa succede se l'ACK viene smarrito?}
 
 \begin{enumerate}
 	\item $A$ chiede la connessione a $B$.
@@ -826,7 +826,7 @@ Abbiamo quindi capito che la congestione è un fenomeno che si riscontra quando 
 	I router forniscono un \textbf{feedback diretto} agli host sender e receiver (di un flusso passante lo stesso router) in merito alla congestione della rete. I router possono fornire il livello di congestione, o esplicitare una \textbf{frequenza di invio}.
 	
 	\item \textbf{Approccio end-to-end}.\\
-	La rete non da alcun tipo di feedback: la congestione è \textbf{dedotta} da ritardi dei pacchetti e ritardi.
+	La rete non dà alcun tipo di feedback: la congestione è \textbf{dedotta} da ritardi dei pacchetti e ritardi.
 \end{itemize}
 
 \subsection{AIMD - Additive Increase Multiplicative Decrease}
@@ -840,17 +840,17 @@ Ogni incremento viene fatto operando sulla variabile \verb|cwnd|, ovvero la fine
 Il grafico che si ottiene osservando la crescita (e decrescita) del sending rate nel tempo, è detto \textbf{saw-tooth}, dente di sega. Questa tecnica ha tre fasi:
 \begin{enumerate}
 	\item \textbf{Slow Start}, inizio lento.\\
-	Il mittente inizia con una congestion window di 1, ma che cresce, moltiplicata per 2 ad ogni RTT, fino a una soglia stabilita dalla variabile \verb|sstresh|. Oltre quella soglia, si entra in congestion avoidance.
+	Il mittente inizia con una congestion window di 1, ma che cresce, moltiplicata per 2 ad ogni RTT, fino a una soglia stabilita dalla variabile \verb|sshtresh|. Oltre quella soglia, si entra in congestion avoidance.
 	
 	\item \textbf{Congestion Avoidance}.\\
-	Superata la \verb|sstresh|, e quindi circa la soglia di $\frac{\text{cwnd}}{2}$, inizia la congestion avoidance: \textbf{la crescita diventa lineare} e \verb|sstresh|= \verb|cwnd|/2.
+	Superata la \verb|sshtresh|, e quindi circa la soglia di $\frac{\text{cwnd}}{2}$, inizia la congestion avoidance: \textbf{la crescita diventa lineare} e \verb|sshtresh|= \verb|cwnd|/2.
 	\item \textbf{Fast Recovery}.\\
 	Congestion avoidance procede normalmente fino a un \textbf{time-out} o tre \textbf{ACK}.
 	
 	\begin{enumerate}
 		\item Se si verifica un time-out, \verb|cwnd| è settato a 1 MSS. 
 		\item Se si verifica un triplo ACK, \verb|cwnd| è dimezzato.\\
-		Il valore di \verb|cwnd| incrementa di 3 MSS, e quindi \verb|sstresh| = $(\verb|cwnd|+3)/2$.
+		Il valore di \verb|cwnd| incrementa di 3 MSS, e quindi \verb|sshtresh| = $(\verb|cwnd|+3)/2$.
 	\end{enumerate}
 	
 	
@@ -861,9 +861,9 @@ Il grafico che si ottiene osservando la crescita (e decrescita) del sending rate
 
 \begin{itemize}
 	\item \textbf{TCP-Tahoe.}\\
-	Se si perde un pacchetto (individuata da timeout o 3 ACK duplicati), la \verb|sstresh| viene dimezzata, e il cwnd viene azzerato, ripartendo da 1 MSS a priori. Si rientra sempre in slow start dopo qualsiasi evento di perdita.
+	Se si perde un pacchetto (individuata da timeout o 3 ACK duplicati), la \verb|sshtresh| viene dimezzata, e il cwnd viene azzerato, ripartendo da 1 MSS a priori. Si rientra sempre in slow start dopo qualsiasi evento di perdita.
 	\item \textbf{TCP-Reno.}\\
-	Se si perde un pacchetto (solo se individuata 3 ACK duplicati), fast recovery! \verb|sstresh| viene dimezzata, e il \verb|cwnd| riparte da un valore $\approx \verb|sstresh|$.\\
+	Se si perde un pacchetto (solo se individuata 3 ACK duplicati), fast recovery! \verb|sshtresh| viene dimezzata, e il \verb|cwnd| riparte da un valore $\approx \verb|sshtresh|$.\\
 	Se si rileva la perdita di pacchetti tramite un \textbf{time-out}, si rientra in \textbf{Slow Start}.
 \end{itemize}
 

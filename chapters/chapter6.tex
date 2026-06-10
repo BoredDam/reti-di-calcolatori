@@ -2,14 +2,14 @@
 
 \section{Introduzione al livello Data Link}
 
-È il layer che si trova a cavallo tra il mondo logico, e quello fisico. Fornisce al livello di rete un \textbf{servizio di trasmissione} per flussi di bit (\textbf{bitstream}).
+È il layer che si trova a cavallo tra il mondo logico e quello fisico. Fornisce al livello di rete un \textbf{servizio di trasmissione} per flussi di bit (\textbf{bitstream}).
 
 \subsection{Servizi del Data Link Layer}
 \begin{itemize}
 	\item \textbf{Data framing.}
 	\begin{itemize}
 		\item Dal basso verso l'alto, dal fisico al logico\\
-		raggruppando simboli/bit del layer fisico in frame e \textbf{trasformando il flusso grezzo} di \textbf{bit} in informazioni strutturare. 
+		raggruppando simboli/bit del layer fisico in frame e \textbf{trasformando il flusso grezzo} di \textbf{bit} in informazioni strutturate. 
 		
 		\item Dall'alto verso il basso, dal logico al fisico.\\
 		incapsulando i datagrammi del livello di rete in frame contenenti due campi, un campo dati $D$ e i campi d'intestazione.
@@ -20,7 +20,7 @@
 	\end{figure}
 	
 	\item \textbf{Gestire l'accesso al mezzo fisico}, nel caso di \textbf{canali condivisi}.\\
-	I dispositivi, nel DLL, sono identificati tramite indirizzi MAC, dei veri e propri indirizzi fisici. L'accesso al canale condiviso, nel caso dei \textbf{collegamenti broadcasat}, dev'essere gestito tramite dei \textbf{protocolli d'accesso multiplo}, per evitare \textbf{collisioni}.
+	I dispositivi, nel DLL, sono identificati tramite indirizzi MAC, dei veri e propri indirizzi fisici. L'accesso al canale condiviso, nel caso dei \textbf{collegamenti broadcast}, dev'essere gestito tramite dei \textbf{protocolli d'accesso multiplo}, per evitare \textbf{collisioni}.
 	
 	\item Fornire una \textbf{consegna dei dati} \textit{reliable}, \textbf{affidabile}.\\
 	Se il mezzo fisico è abbastanza affidabile (fibra, doppino di rame...), non è necessario implementare meccanismi del genere, in quanto ridondanti rispetto a quelli presenti nel livello di trasporto e application. Nel caso di mezzi di trasmissione meno affidabili, come nel caso delle reti wireless, il trasporto reliable è ottenuto tramite meccanismi di ACK/NACK e ritrasmissioni.
@@ -28,17 +28,17 @@
 	\item \textbf{Gestire gli errori} del canale \textbf{di trasmissione} (rilevandoli e, se possibile, correggendoli).\\
 	Gli errori possono essere causati da attenuazione del segnale, rumore, interferenze tra campi elettromagnetici o dal mezzo fisico usurato, e sono gestiti tramite checksum, controllo di ridondanza ciclico (CRC), controllo di parità, codici di Hamming o meccanismi simili che conseguono lo stesso scopo.
 	
-	\item \textbf{Regola il flusso dati} tra sorgente e destinazione.\\
+	\item \textbf{Regolare il flusso dati} tra sorgente e destinazione.\\
 	I collegamenti possono essere full-duplex o half-duplex, permettendo o non permettendo la trasmissione contemporanea di dati da entrambi i nodi del collegamento. Il pacing di trasmissione deve essere proporzionato a quello di ricezione. I due nodi devono comunicare in maniera opportuna per gestire questa situazione.
 \end{itemize}
 
 \subsubsection{Nozione utile - Rumore}
-Definiamo come rumore, una forma di distorsione (voluta o non voluta) che si presenta all'interno di un segnale elettrico effettivo. Qualsiasi circuito genera rumore, ed è dovuto alla presenza di resistenze (resistenze vere e proprie e resistenza intrinseca dei conduttori elettrici e i materiali usati). Nelle simulazioni dei circuiti elettrici, è possibile inserire un rumore elettrico chiamato \textbf{rumore gaussiano}.
+Definiamo come rumore una forma di distorsione (voluta o non voluta) che si presenta all'interno di un segnale elettrico effettivo. Qualsiasi circuito genera rumore, ed è dovuto alla presenza di resistenze (resistenze vere e proprie e resistenza intrinseca dei conduttori elettrici e i materiali usati). Nelle simulazioni dei circuiti elettrici, è possibile inserire un rumore elettrico chiamato \textbf{rumore gaussiano}.
 
 \subsection{Implementazione del DLL - NIC}
-In ogni host singolo host (device e router) di una rete, è implementato il Data Link Layer. Ciò avviene tramite una combinazione di \textbf{hardware, software e firmware} presente all'interno dei NIC (Network Interface Controller) dei dispositivi di rete. Buona parte del DLL è implementato in hardware, come il protocollo Ethernet nell'adattatore Intel 700, o il protocollo Wi-Fi nel chipset Atheros AR5006. Tuttavia, \textbf{è il software a farsi ponte tra il livello di rete, e il livello mondo fisico}.
+In ogni singolo host (device e router) di una rete, è implementato il Data Link Layer. Ciò avviene tramite una combinazione di \textbf{hardware, software e firmware} presente all'interno dei NIC (Network Interface Controller) dei dispositivi di rete. Buona parte del DLL è implementato in hardware, come il protocollo Ethernet nell'adattatore Intel 700, o il protocollo Wi-Fi nel chipset Atheros AR5006. Tuttavia, \textbf{è il software a farsi ponte tra il livello di rete, e il mondo fisico}.
 
-\subsection{Comunicazione tra due Network Interfacec Controller}
+\subsection{Comunicazione tra due Network Interface Controller}
 Lato mittente:
 \begin{enumerate}
 	\item Il datagramma da trasmettere viene incapsulato in un frame del DLL.
@@ -97,7 +97,7 @@ Questo meccanismo di clock permette al receiver di intuire il numero di bit $=0$
 \newpage
 
 \subsection{Codifica a blocchi}
-Il three-level encoding è la base per la trasmissione dei dati. Tuttavia, questo meccanismo, presenta due criticità:
+Il three-level encoding è la base per la trasmissione dei dati. Tuttavia, questo meccanismo presenta due criticità:
 \begin{itemize}
 	\item \textbf{Non è DC-Balanced}. Il livello di tensione medio non è necessariamente mantenuto tendente a 0. Può portare complicazioni di vario tipo.
 	\item Se ci sono inoltre lunghe sequenze di zero, si ha un problema di \textbf{perdita di sincronizzazione}.
@@ -105,7 +105,7 @@ Il three-level encoding è la base per la trasmissione dei dati. Tuttavia, quest
 La \textbf{codifica a blocchi} sostituisce blocchi di bit di una determinata dimensione, con blocchi leggermente più grandi ( $4\to5$, $8\to 10$), traducendo le sequenze in maniera tale da garantire un numero minimo di transizioni.
 
 \subsubsection{Codifica 4B5B}
-Associa a blocchi di 4 bit, blocchi di 5 bit. Richiede una bandwitdh del $25\%$ più capiente. È utilizzata per fast ethernet.
+Associa a blocchi di 4 bit, blocchi di 5 bit. Richiede una bandwidth del $25\%$ più capiente. È utilizzata per fast ethernet.
 
 \begin{footnotesize}
 	\begin{verbatim}
@@ -156,12 +156,12 @@ x= \lfloor\log_2 n\rfloor
 $$
 
 Con $n=3$ livelli, abbiamo $\lfloor\log_23\rfloor=1$. Con $n=5$ livelli, abbiamo $\lfloor\log_25\rfloor=2$.
-Moltiplicando il numero il numero ottenuto, per il numero di step (o simboli) al secondo, otteniamo il \textbf{limite teorico di bitrate}.
+Moltiplicando il numero ottenuto, per il numero di step (o simboli) al secondo, otteniamo il \textbf{limite teorico di bitrate}.
 
 $$
 \text{Limite teorico bit-rate} = \text{Simboli al secondo} \cdot \log_2 n
 $$
-\subsubsection{Piccolo approfondimento sulla quanittà di informazioni - non è nel programma}
+\subsubsection{Piccolo approfondimento sulla quantità di informazioni - non è nel programma}
 Questa formula è anche detta \textit{Misura di Hartley}, e si tratta di una versione semplificata del concetto di \textbf{entropia informativa di Shannon}, valida solo nel caso di simboli (o eventi) \textbf{equiprobabili}.
 \newpage
 
@@ -230,7 +230,7 @@ Al sender.
 \begin{enumerate}
 	\item $D$ sono i dati che vogliamo trasmettere.
 	\item Calcoliamo $D\cdot 2^r$, nel pratico $D <<r$.
-	\item Effettuamo la divisione $\mod 2$ tra $\frac{D\cdot 2^r}{G}$.
+	\item Effettuiamo la divisione $\mod 2$ tra $\frac{D\cdot 2^r}{G}$.
 	\item Il resto della nostra divisione sarà il nostro valore di $R$.
 	\item Il messaggio che manderemo sarà il risultato della concatenazione di $D+R$. \\In termini di bit: $D\cdot 2^r \ XOR \ \ R$.
 	\item Questo valore sarà sempre divisibile per $G$, con resto nullo.
@@ -342,7 +342,7 @@ $$
 \newpage
 
 \subsection{Come si effettua la verifica della distanza di Hamming?}
-I bit di controllo sono sempre posizionati in bit di posizioni potenze di due $(1,2,4,8,16,\dots)$.
+I bit di controllo sono sempre collocati in posizioni corrispondenti a potenze di due $(1,2,4,8,16,\dots)$.
 
 Il valore del bit di controllo $b_r$ è dato dallo $XOR$ di tutti i valori ottenibili con quel $b_r=1$.\\
 Ad esempio, con \verb|xx1x001x0|, abbiamo:
@@ -458,12 +458,12 @@ La velocità di trasmissione (nonostante spesso sia altissima) è un fattore non
 	\item Il nodo $A$ trasmette all'istante $t_0$.
 	\item $B$ misura la portata del canale all'istante $t_1>t_0$. 
 	\item All'istante $t_1$ i bit trasmessi da $A$ potrebbero non essersi propagati fino a $B$.
-	\item $B$ trasmette. Collissione!
+	\item $B$ trasmette. Collisione!
 \end{enumerate}
 
 
-\subsubsection{CSMA-CD - Carrier Sense Multiple Acces con Collision Detection}
-Un miglioramento è ottenuto se si introduce un meccanismo di collision detection sopra quello di rilevamento del carico: la scheda che avrà trasmesso un determinato frame continuerà a misurare il carico del canale. Se rileva rumore o energia di altre trasmissioni nel canale, il nodo interromperà istantaneamente la trasmissione del frame, manderà un \textbf{segnale di jamming con backoff} a tutti gli host, informando tutti i nodi della collisione, e attenderà un quantitativo di tempo casuale per poi ritrasmettere. Questo tempo è chiamato \textbf{tempo di backoff}, non è fissato (intuitivamente renderebbe inutilizzabile il protocollo), e dipende dall'algoritmo scelto dal protocollo.
+\subsubsection{CSMA-CD - Carrier Sense Multiple Access con Collision Detection}
+Un miglioramento è ottenuto se si introduce un meccanismo di collision detection in aggiunta a quello di rilevamento della portante: la scheda che avrà trasmesso un determinato frame continuerà a misurare il carico del canale. Se rileva rumore o energia di altre trasmissioni nel canale, il nodo interromperà istantaneamente la trasmissione del frame, manderà un \textbf{segnale di jamming con backoff} a tutti gli host, informando tutti i nodi della collisione, e attenderà un quantitativo di tempo casuale per poi ritrasmettere. Questo tempo è chiamato \textbf{tempo di backoff}, non è fissato (intuitivamente renderebbe inutilizzabile il protocollo), e dipende dall'algoritmo scelto dal protocollo.
 
 Un esempio di algoritmo, è quello di \textbf{attesa binaria esponenziale}, o \textit{binary exponential backoff}:
 all'$n$-esima collisione, si estrae un valore dall'insieme $K=\{0,1,2,\dots,2^n-1\}$.
@@ -593,14 +593,14 @@ Detto ciò, \textbf{UTP} sta per \textbf{Unshielded Twisted Pair}, \textbf{STP} 
 \begin{itemize}
 	\item \textbf{Cat5}, che supporta fino a 100Mbps e opera sui 100Mhz di frequenza;
 	\item \textbf{Cat5e} (Cat5 enhanced), che segue maggiormente gli standard IEE e supporta fino a 1Gbps, operando sempre su 100Mhz di frequenza;
-	\item \textbf{Cat6}, che supporta fino a 10Gbps e opra sui 250Mhz di frequenza;
+	\item \textbf{Cat6}, che supporta fino a 10Gbps e opera sui 250Mhz di frequenza;
 	\item \textbf{Cat6a}, che supporta fino a 10Gbps, ma con maggiori distanze e sulla frequenza di 500Mhz.
 \end{itemize}
 
 \newpage
 
 \subsection{Connettore RJ-45}
-È la terminazione dei cavi usati da Ethernet. Sono del tipo 8P8C (otto posizioni, otto contatti). Esistono inoltre due schemi di cablaggio, T568A e T568B, che differiscono per un inversione delle coppie 2 e 3. T568B è il prediletto nei sistemi recenti, secondo lo standard ANSI/TIA ((American National Standards Institute e Telecommunications Industry Association).
+È la terminazione dei cavi usati da Ethernet. Sono del tipo 8P8C (otto posizioni, otto contatti). Esistono inoltre due schemi di cablaggio, T568A e T568B, che differiscono per un'inversione delle coppie 2 e 3. T568B è il prediletto nei sistemi recenti, secondo lo standard ANSI/TIA ((American National Standards Institute e Telecommunications Industry Association).
 
 
 \begin{figure}[htp]
@@ -668,7 +668,7 @@ $$
 	\item \textbf{MAC address mittente}.\\
 	6 byte.
 	\item \textbf{Q-Tag/VLAN Tag}.\\
-	È il tag presente \textbf{esclusivamente nelle frame Ethernet che supportano le VLAN}. Non è sempre presente, in quanto non tutti i frame Ethernet sono \textit{tagged}. 4 byte.
+	È il tag presente \textbf{esclusivamente nei frame Ethernet che supportano le VLAN}. Non è sempre presente, in quanto non tutti i frame Ethernet sono \textit{tagged}. 4 byte.
 	\item \textbf{Type/length}.\\
 	2 byte che identificano il tipo di connessione (EtherType, IPv4, IPv6, ARP,$\dots$), se ha valore superiore a 1500, altrimenti, la lunghezza del data field.
 	\item \textbf{Data field}.\\
@@ -756,7 +756,7 @@ La decodifica 4D, detta di Viterbi, viene eseguita tramite un automa a stati fin
 	\includegraphics[width=0.75\linewidth]{./images/trellis.drawio.pdf}
 \end{figure}
 
-Ciò che viene fatta, è una \textbf{Trellis code modulation}. Raddoppiando il numero di bit per rappresentare un bit d'informazione, gli errori peseranno meno sull'informazione complessiva. Tuttavia è grazie alle transizioni dell'automa limitate che è possibile capire quando è avvenuto un errore: la distanza di Hamming delle stringhe possibili valutate rispetto a quella consegnata, ci permette di stabilire come effettuare la correzione.
+Ciò che viene fatto è una \textbf{Trellis code modulation}. Raddoppiando il numero di bit per rappresentare un bit d'informazione, gli errori peseranno meno sull'informazione complessiva. Tuttavia è grazie alle transizioni dell'automa limitate che è possibile capire quando è avvenuto un errore: la distanza di Hamming delle stringhe possibili valutate rispetto a quella consegnata, ci permette di stabilire come effettuare la correzione.
 
 \newpage
 
@@ -780,7 +780,7 @@ Il bridge, invece:
 \end{itemize}
 
 \subsection{Switch}
-È un dispositivo che trasmette pacchetti ricevuti a uno o più dispositivi destinatari. È più espandibile in termini di numero di porte, rispetto al bridge, e effettua operazioni di \textbf{inoltro} (individuare a quale interfaccia mandare il frame) e \textbf{filtraggio} (capire quando scartare un frame). Uno switch contiene al suo interno una \textbf{switch table} con record del tipo \verb|Indirizzo MAC - Interfaccia - Tempo|.
+È un dispositivo che trasmette pacchetti ricevuti a uno o più dispositivi destinatari. È più espandibile in termini di numero di porte, rispetto al bridge, ed effettua operazioni di \textbf{inoltro} (individuare a quale interfaccia mandare il frame) e \textbf{filtraggio} (capire quando scartare un frame). Uno switch contiene al suo interno una \textbf{switch table} con record del tipo \verb|Indirizzo MAC - Interfaccia - Tempo|.
 Il tempo viene utilizzato per stabilire quando un dispositivo non è più presente nella rete: verrà dedotto in quanto non verranno mandati più pacchetti al suo indirizzo MAC per molto tempo. Gli switch sono full duplex, senza collisioni.
 
 \newpage
@@ -816,7 +816,7 @@ Lo switch può essere \textbf{partizionato logicamente} in più insiemi di porte
 	\item \textbf{Priority.}\\
 	Identifica il livello di priorità. 3 bit.
 	\item \textbf{Canonical Format Identifier.}\\
-	1 bit che pecifica se il frame è untagged. Il flag a 0 indica che il meccanismo di VLAN non è supportato.
+	1 bit che specifica se il frame è untagged. Il flag a 0 indica che il meccanismo di VLAN non è supportato.
 	\item \textbf{Virtual Lan Identifier.}\\
 	12 bit.
 \end{itemize}
